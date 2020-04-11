@@ -1,0 +1,6 @@
+Django==2.2
+gunicorn>=19.9
+psycopg2-binary>=2.7.5
+PyQRCode>=1.2.1
+pytz>=2018.5
+whitenoise>=4.0
