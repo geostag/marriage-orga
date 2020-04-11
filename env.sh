@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-export appname=jstammbaum
+export appname=marriage-orga
 export dj_basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export appdir="${dj_basedir}/app"
 export dj_runtimedir="${dj_basedir}/runtime"

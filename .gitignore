@@ -1,4 +1,5 @@
-marriag-orga-db-env.sh
+marriage-orga-db-env.sh
+runtime
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
