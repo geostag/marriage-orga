@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# deploays a release-tar-ball in the current instance
+# usage: deploy-release <release-tar-ball>
+
+release="$1"
+
+if [ "_$release" = "_" -o ! -r $release ]; then
+    echo "usage: deploy-release <release-tar-ball>"
+    exit 1
+fi
+if [ ! -d $dj_basedir ]; then
+    echo "need current django environment. exiting."
+    exit 2
+fi
+
+cd $dj_basedir || exit 3
+echo "extracting '$release'..."
+tar xzf $release
+echo "migrating"
+. env.sh
+cd $appdir
+python manage.py migrate
+echo "restarting server"
+./run.sh
+

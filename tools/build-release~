@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# build script to create a tar ball from scratch ready to install on
+# preLive or live stage, binary identitcal
+# steps:
+# - pull from git
+# - cleanup runtime directory completely
+# - create python venv with dependencies
+# - collectstatic
+# - create tar ball
+
+echo "build  a release"
+
+if [ "_$dj_basedir" = "_" ]; then
+   echo environment needed. Exiting.
+   exit 1
+fi
+
+pwd | grep "$dj_basedir" > /dev/null
+if [ $? != 0 ]; then
+    echo "ERROR: you are NOT below '$dj_basedir'. seems to be a mistake"
+    exit 1
+fi
+
+ende(){
+    echo "$1" >&2
+    exit 2
+}
+
+cd $dj_basedir || ende "could not change to '$dj_basedir'"
+
+rm -rf runtime
+
+git pull
+
+commitid=`git show HEAD~2 --pretty=format:"%h" --no-patch`
+export RELEASE=alberogen-`date +%Y%m%d%H%M%S`-$commitid
+echo "create release '$RELEASE'"
+echo $RELEASE > RELEASE
+
+. tools/build-pyenv.sh
+
+(cd $appdir && python manage.py collectstatic --noinput)
+
+tgtfile=../"$RELEASE".tgz
+tar czf $tgtfile app env.sh runtime RELEASE tools/deploy-release
+
+echo done:
+ls -l $tgtfile

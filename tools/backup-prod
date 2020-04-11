@@ -1,0 +1,31 @@
+#!/bin/sh
+
+TAG=stammbaum-`date '+%Y%m%d'`
+TGTDIR="backup"
+if [ ! -d $TGTDIR ]; then
+  echo "BACKU DIR not tere"
+  echo "run this: tools/backup-prod"
+  exit 2
+fi
+if [ "_$PGUSER" = "_" ]; then
+  echo "no env.sh"
+  exit 2
+fi
+
+if [ -f "$TGTDIR/${TAG}-db.sql.gz" ]; then
+   TAG=stammbaum-`date '+%Y%m%d-%H%M%S'`
+fi
+
+F1="$TGTDIR/${TAG}-db.sql.gz"
+F2="$TGTDIR/${TAG}-media.tar.gz"
+   
+
+
+ssh alberogen << "EOF"
+cd $HOME/jst && . env.sh
+pg_dump $PGDATABASE | gzip > /tmp/jst-db.sql.gz
+EOF
+scp alberogen:/tmp/jst-db.sql.gz $F1
+ssh alberogen "rm /tmp/jst-db.sql.gz"
+
+ssh alberogen 'cd $HOME/jst/runtime && tar czf - media' > $F2
