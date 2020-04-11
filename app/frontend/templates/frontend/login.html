@@ -1,0 +1,75 @@
+{% extends "frontend/base-boxed.html" %}
+
+{% block content %}
+<!-- frontend/login.html -->
+<style type="text/css">
+    .button-switch {
+        font-size: 75%; 
+        width: 100%;
+        color: 707070;
+    }
+</style>
+
+<div id="signaccord">
+
+  <div class="border-rounded">
+    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps1" aria-expanded="false">Anmelden:</a><br />
+    <div id="laps1" class="{% if registermode %}collapse{% else %}show{% endif %}" data-parent="#signaccord">
+      <form id="login_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
+        {% csrf_token %}
+        <input type="hidden" value="{{next}}" />
+    
+        {% if form.non_field_errors %}
+          <label for="{{form.auto_id}}" class="col control-label"> </label>
+          <div style="color: #ee6924;">{{form.non_field_errors}}</div>
+        {% endif %}
+
+        {% include 'frontend/form-field-snippet.html' with f=form.username %}
+        {% include 'frontend/form-field-snippet.html' with f=form.password %}
+        <div class="clearfix m-2">
+        <div class="float-right text-small"><a href="{% url 'reset_password' %}">Passwort vergessen?</a></div>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary">Anmelden</button>
+      </form>
+    </div>
+  </div>    
+
+  {% if settings.ALB_DISABLE_REGISTRATION != "yes" %}
+  <div class="row">
+      <div class="col"><hr></div>
+      <div class="col-auto">oder</div>
+      <div class="col"><hr></div>
+  </div>
+
+  <div class="border-rounded">
+    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps2" aria-expanded="false">Einmalig kostenlos registrieren:</a><br />
+    <div id="laps2" class="{% if registermode %}show{% else %}collapse{% endif %}" data-parent="#signaccord">
+        <form id="register_form" action="{% url 'register' %}" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
+        {% csrf_token %}
+    
+        {% if register.non_field_errors %}
+          <label for="{{form.auto_id}}" class="col control-label"> </label>
+          <div style="color: #ee6924;">{{register.non_field_errors}}</div>
+        {% endif %}
+
+        {% include 'frontend/form-field-snippet.html' with f=register.first_name %}
+        {% include 'frontend/form-field-snippet.html' with f=register.last_name %}
+        {% include 'frontend/form-field-snippet.html' with f=register.email %}
+        {% include 'frontend/form-field-snippet.html' with f=register.password %}
+        {% include 'frontend/form-field-snippet.html' with f=register.password2 %}
+        {% include 'frontend/form-field-snippet.html' with f=register.dsconfirm %}
+        <button type="submit" class="btn btn-block btn-primary">Registrieren</button>
+        </form>
+    </div>
+  </div>
+  {% endif %}
+    
+</div>
+
+
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+
+
+{% endblock content %}

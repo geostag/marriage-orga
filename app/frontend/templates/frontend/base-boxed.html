@@ -1,0 +1,21 @@
+{% extends "frontend/base-skeleton.html" %}
+
+{% block contentbase %}
+<div class="container">
+
+<!-- base-boxed -->
+    <div class="row">
+    <div class="col-lg-6" style="margin-left: auto; margin-right: auto;">
+    
+        <div class="not-too-wide">
+        {% block content %}
+        {% endblock content %}
+            
+        </div>
+    
+        
+    </div>
+    </div>
+
+</div>
+{% endblock contentbase %}

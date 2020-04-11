@@ -15,7 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include, url
+import frontend.views
+
+#handler403 = "v2.views.status403"
+#handler404 = "v2.views.status404"
+#if not settings.DEBUG:
+#    handler500 = "v2.views.status500"
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^$', frontend.views.landingpage, name='landingpage'),
+    path(r'frontend/',  include("frontend.urls")),
 ]

@@ -1,0 +1,25 @@
+{% load static %}
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>{{settings.APP_NAME}}</title>
+  
+  <style type="text/css">
+  body {
+    font-family: sans-serif, "Helvetica", "Arial";
+  }
+
+  </style>
+  
+</head>
+<body>
+
+<a border="0" href="{{settings.BASE_ADDRESS}}{% url 'landingpage' %}"><img src="{{settings.BASE_ADDRESS}}{% static 'images/icon.png' %}" /> {{settings.APP_NAME}}</a><br />
+<p> </p>
+{% block content %}
+
+Dies ist der Inhalt der Email.
+
+{% endblock %}
+</body>
+</html> 

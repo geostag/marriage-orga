@@ -1,0 +1,11 @@
+{% extends "frontend/base-email.html" %}
+{% load static %}
+
+{% block content %}
+Hallo {{ user.first_name }} {{ user.last_name }},<br/>
+
+um die {{settings.APP_NAME}} Registrierung abzuschließen, rufen sie bitte diesen Link auf:<br/>
+
+<a href="{{settings.BASE_ADDRESS}}{% url 'register_opt2' oikey=oikey %}">{{settings.BASE_ADDRESS}}{% url 'register_opt2' oikey=oikey %}</a>
+
+{% endblock %}

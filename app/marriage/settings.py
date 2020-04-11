@@ -15,18 +15,55 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+APP_NAME = "Marriage Orga"
+BASE_ADDRESS = "http://www.ostertage.de"
+OUR_EMAIL = "info@ostertage.de"
+SW_HEADER_INSTANCE = os.getenv("SW_HEADER_INSTANCE","None")
+
+# TEST or PROD
+INSTANCE = os.environ['INSTANCE']
+RELEASE = os.environ['RELEASE']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sw7amkg+g!em4^j)z=8bx#5-#g=1un5f5t_e9gsom9=)&njnbp'
+SECRET_KEY = os.getenv("SECRET_KEY","ya need a secret key in your env")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv("HOSTNAME",""),'localhost']
 
+if DEBUG:
+    DEBUG = True
+    LEVEL = "DEBUG"
+    WHITENOISE_MAX_AGE = 0
+else:
+    DEBUG = False
+    LEVEL = "WARN"
+    WHITENOISE_MAX_AGE = 3600
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
+
+ALLOWED_HOSTS = [os.getenv("HOSTNAME",""),'localhost']
+
+# Session information
+SESSION_COOKIE_AGE = 48 * 3600
+SESSION_COOKIE_NAME = "maor%s" % INSTANCE
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'fs'
+
+# Email settings
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv("EMAIL_HOST","")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER","")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD","you should choose a seceret one")
+#EMAIL_USE_TLS = True
+#EMAIL_PORT = "587"
+EMAIL_USE_SSL = True
+EMAIL_PORT = "465"
+#EMAIL_TIMEOUT
 
 # Application definition
 
@@ -37,11 +74,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'backend',
+    'frontend',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # to serve static files
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,10 +101,24 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
+]
+
+# to export settings variables into template variables
+SETTINGS_EXPORT = [
+    'INSTANCE',
+    'DEBUG',
+    'APP_NAME',
+    'RELEASE',
+    'BASE_ADDRESS',
+    'OUR_EMAIL',
+    'SW_HEADER_INSTANCE',
+    'ALB_DISABLE_REGISTRATION',
+    'ALB_LOGOLINK'
 ]
 
 WSGI_APPLICATION = 'marriage.wsgi.application'
@@ -75,46 +129,65 @@ WSGI_APPLICATION = 'marriage.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE':   os.getenv('DB_ENGINE'  ,"django.db.backends.sqlite3" ),
+            'NAME':     os.getenv('DB_NAME'    ,os.path.join(BASE_DIR, "django-db.sqlite3") ),
+            'USER':     os.getenv('DB_USER'    ,"" ),
+            'PASSWORD': os.getenv('DB_PASSWORD',"" ),
+            'HOST':     os.getenv('DB_HOST'    ,"" ),
+            'PORT':     os.getenv('DB_PORT'    ,"" ),
     }
 }
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  
 
+CACHE_TIMEOUT = 60
+CACHE_TIMEOUT_IMAGEBASE64 = 42200
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'jstcache',
+        'TIMEOUT': 3600 * 24 * 31,
+    },
+    'fs' : {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/jst_cache_%s' % INSTANCE,
+        'TIMEOUT': 60,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+AUTH_PASSWORD_VALIDATORS = [ { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'de-de'
+TIME_ZONE = 'Europe/Berlin'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+RUNTIME_DIR = os.environ["dj_runtimedir"]
 
-STATIC_URL = '/static/'
+if INSTANCE == "PROD":
+    STATIC_URL  = '/jst-static/'
+    MEDIA_URL  = '/jst-media/'
+else:
+    STATIC_URL  = '/jst%s-static/' % INSTANCE
+    MEDIA_URL  = '/jst%s-media/' % INSTANCE
+
+STATIC_ROOT = os.path.join( RUNTIME_DIR,"static")
+MEDIA_ROOT = os.path.join( RUNTIME_DIR,"media")
+MYMEDIA_URL = MEDIA_URL
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = 'frontend.views.base'

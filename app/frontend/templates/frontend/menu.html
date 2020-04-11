@@ -1,0 +1,27 @@
+<ul class="navbar-nav">
+    {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a title="Home" class="nav-link" href="{% url 'landingpage' %}"><i class="fas fa-home"></i></a>
+        </li>
+        {% if user.is_superuser %}
+        <li>
+            <a title="Admin" class="nav-link" href="{% url 'admin:index' %}"><span class="text-danger"><i class="fas fa-user-shield"></i></span></a>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="atticDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item nav-link" href="{% url 'change_password' %}" title="Passwort ändern"><i class="fas fa-key"></i> Passwort ändern</a>
+                <a class="dropdown-item nav-link" href="{% url 'logout' %}?next={% url 'landingpage' %}" title="Abmelden"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
+            </div>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a title="Login" class="nav-link" href="{% url 'login'%}"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
+        </li>
+    {% endif %}
+    
+</ul>
+ 

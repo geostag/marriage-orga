@@ -1,0 +1,26 @@
+        <div class="form-group {{additional_class}}{% if f.errors %} has-error{% endif %}">
+          <label for="{{f.auto_id}}" class="col control-label">{{f.field.label}}{% if f.field.required %}<span style="color: #ee6924; position: absolute; right: 8px;"> *</span>{% endif %}</label>
+          <div class="col">
+          {% if additional_class == "bs-django-clearablefileupload" %}
+              <div class="form-control bs-django-clearablefileupload" style="height: inherit;">
+              
+              <div id="{{f.name}}-currentvalue" class="text-muted text-small">{% if f.value %}{{f.value}}{% endif %}</div>
+              {% if f.value %}
+               <img id="{{f.name}}-current" src="{{f.value.url}}" width="50" />
+               <input class="d-none" type="checkbox" name="{{f.name}}-clear" id="{{f.name}}-clear_id">
+               <label id="{{f.name}}-cleardiv" data-hide1="{{f.name}}-select" data-clear="{{f.name}}-current" data-value="{{f.name}}-currentvalue" class="m-1 label-clear btn btn-secondary" for="{{f.name}}-clear_id">löschen</label>
+              {% endif %}
+               <input data-hide1="{{f.name}}-cleardiv" data-hide2="{{f.name}}-current" data-value="{{f.name}}-currentvalue" class="input-select d-none" type="file" name="{{f.name}}" id="{{f.name}}_id">
+               <label id="{{f.name}}-select" class="m-1 btn btn-secondary" for="{{f.name}}_id">Datei auswählen</label>
+              
+              </div>           
+          {% else %}
+           {{f}}
+          {% endif %}
+          {% if f.errors %}{% for error in f.errors %}<div class="alert alert-danger" role="alert">{{ error|escape }}</div>{% endfor %}{% endif %}    
+          {% if f.help_text %}<p class="help-block">{{f.help_text}}</p>{% endif %}
+          </div> 
+        </div>
+
+        
+        

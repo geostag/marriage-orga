@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="{{settings.APP_NAME}} {{settings.RELEASE}}">
+    <meta name="theme-color" content="#5f7183">
+    <link rel="shortcut icon" href="{% static 'images/icon.ico' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/icon.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+
+    <title>{% block title %}{{settings.APP_NAME}}{% endblock %}</title>
+
+    {% comment %}   Bootstrap core CSS    {% endcomment %}
+    <link href="{% static 'bs-mb/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% comment %}   Custom styles for this template    {% endcomment %}
+    <link href="{% static 'bs-mb/css/modern-business.css' %}" rel="stylesheet">
+    {% comment %}   Fontawesome https://origin.fontawesome.com/icons/   5.8  {% endcomment %}
+    <link href="{% static 'fa/css/all.css' %}" rel="stylesheet">
+    {% comment %}   https://github.com/danielfarrell/bootstrap-combobox  {% endcomment %}
+    {% if user.is_authenticated %}<link href="{% static 'bs-mb/css/bootstrap-combobox.css' %}" rel="stylesheet">{% endif %}
+    {% comment %} settings style switch {% endcomment %}
+    {% if user.is_authenticated %}<link href="{% static 'bs-mb/css/switch.css' %}" rel="stylesheet">{% endif %}
+    {% block headerstyle %}{% endblock headerstyle %}
+  </head>
+
+  <body>
+
+  
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light navbar-white50">
+      <div class="container">
+        {% if settings.SW_HEADER_INSTANCE == 'Full' %} 
+            <span class="header-instance">{% if user.is_authenticated %}{{ user.username }}{% if customer %}/{{customer.name}}{% endif %}@{% endif %}{{settings.INSTANCE}}</span>
+        {% elif settings.SW_HEADER_INSTANCE == 'Instancename' %}
+            <span class="header-instance">{{settings.INSTANCE}}</span>
+        {% else %}    
+            <span class="header-instance"></span>
+        {% endif %}
+        <a class="navbar-brand" href="{% if settings.ALB_LOGOLINK %}{{ settings.ALB_LOGOLINK }}{% else %}{% url 'landingpage' %}{% endif %}"><img width="32" height="32" src="{% static 'images/icon-256.png' %}" /> {{settings.APP_NAME}}</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+           <div class="ml-auto d-inline"></div>
+          {% include 'frontend/menu.html' %}
+        </div>
+        
+      </div>
+    </nav>
+
+    <header style="position: relative">
+      {% block header %}
+      {% endblock %}
+    </header>
+
+      {% block contentbase %}
+      {% endblock contentbase %}
+
+    <!-- Footer -->
+    <footer style="margin-top: 2px">
+    <hr />
+      <div class="container text-muted text-small">
+        <div class="row">
+          <div class="col">
+            {% block footerlinks %}
+            {% endblock footerlinks %}
+          </div>
+          <div class="col">
+            <a href="{% url 'frontend.render' template='frontend/datenschutz.html' %}">Datenschutz+Impressum</a><br />
+            Copyright &copy; 2020 {{settings.APP_NAME}}
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- core JavaScript -->
+    <script src="{% static 'bs-mb/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bs-mb/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% if user.is_authenticated %}
+    <!-- bootstrap combobox -->
+    <script src="{% static 'bs-mb/js/bootstrap-combobox.js' %}"></script>
+    <!-- activate -->
+    <script type="text/javascript">
+    $(document).ready(function() { 
+        $(".combobox").combobox({bsVersion: "4", XiconRemove: "far fa-eye", iconCaret: "fas fa-caret-down"});
+        // for custom file-upload styling
+        $(".bs-django-clearablefileupload .label-clear").click( function(){
+            $('#' + $(this).attr("data-clear")).addClass('d-none');
+            $('#' + $(this).attr("data-hide1")).addClass('d-none');
+            $('#' + $(this).attr("data-value") ).html( "-gelöscht-" );
+        });
+        $(".bs-django-clearablefileupload .input-select").change( function(){
+            $('#' + $(this).attr("data-value") ).html( $(this).val() );
+            $('#' + $(this).attr("data-hide1") ).addClass('d-none');
+            $('#' + $(this).attr("data-hide2") ).addClass('d-none');
+        });
+    });
+    </script>
+    {% endif %}
+    <script src="{% static 'jquery-ui/jquery.form.min.js' %}"></script>
+    <script src="{% static 'bs-mb/js/modern-business.js' %}"></script>
+    
+    {% block bottom-scripts %}
+    {% endblock %}
+    
+
+  </body>
+
+</html>

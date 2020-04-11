@@ -1,6 +1,8 @@
 marriage-orga-db-env.sh
 runtime
 
+*~
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
