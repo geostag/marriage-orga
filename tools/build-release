@@ -34,7 +34,7 @@ rm -rf runtime
 git pull
 
 commitid=`git show HEAD~2 --pretty=format:"%h" --no-patch`
-export RELEASE=alberogen-`date +%Y%m%d-%H%M%S`-$commitid
+export RELEASE="$appname"-`date +%Y%m%d-%H%M%S`-$commitid
 echo "create release '$RELEASE'"
 echo $RELEASE > RELEASE
 
