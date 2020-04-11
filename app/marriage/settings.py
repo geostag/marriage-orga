@@ -178,12 +178,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 RUNTIME_DIR = os.environ["dj_runtimedir"]
 
+PFX = os.getenv("appname","set_appname_in_env.sh")
 if INSTANCE == "PROD":
-    STATIC_URL  = '/jst-static/'
-    MEDIA_URL  = '/jst-media/'
+    STATIC_URL  = '/%s-static/' % PFX
+    MEDIA_URL   = '/%s-media/' % PFX
 else:
-    STATIC_URL  = '/jst%s-static/' % INSTANCE
-    MEDIA_URL  = '/jst%s-media/' % INSTANCE
+    STATIC_URL  = '/%s%s-static/' % (PFX,INSTANCE)
+    MEDIA_URL   = '/%s%s-media/' % (PFX,INSTANCE)
 
 STATIC_ROOT = os.path.join( RUNTIME_DIR,"static")
 MEDIA_ROOT = os.path.join( RUNTIME_DIR,"media")
