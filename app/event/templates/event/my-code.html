@@ -1,0 +1,24 @@
+{% extends "frontend/base-boxed.html" %}
+
+{% block headerstyle %}
+{% endblock headerstyle %}
+
+{% block content %}
+<!-- event/my-code.html -->
+
+<div class="text-center">
+
+<h2>Dein Teilnahmecode:</h2>
+
+<h1 class="text-danger">{{code}}</h1>
+
+Bitte notiere Dir diesen Code. Du kannst damit jederzeit später
+Deine Anmeldedaten anpassen.
+
+<div>
+<a class="btn btn-primary" role="button" href="{% url 'event.participate' %}">Weiter</a>
+</div>
+
+</div>
+
+{% endblock content %}

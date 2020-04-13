@@ -57,6 +57,7 @@ def participate(request):
         p = Participant(event=e)
         p.save()
         request.session["pid"] = p.id
+        return render(request,"event/my-code.html" ,{ "code": p.subcode })
         
     guests = Participant.objects.filter(subcode = p.subcode)
     c = { "guests": guests }
@@ -92,4 +93,13 @@ def participant_add(request):
         return HttpResponseForbidden("event or participant not set")
     g = Participant(event=e,subcode=p.subcode)
     g.save()
+    return HttpResponseRedirect(reverse("event.participate"))
+
+def participant_remove(request,gid):
+    e = Event.getfromsession(request)
+    p = Participant.getfromsession(request)
+    if not e or not p:
+        return HttpResponseForbidden("event or participant not set")
+    g = Participant.objects.get(id = int(gid))
+    g.delete()
     return HttpResponseRedirect(reverse("event.participate"))

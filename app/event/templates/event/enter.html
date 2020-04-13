@@ -17,13 +17,13 @@
 
   <div class="border-rounded">
     <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps2" aria-expanded="false">Ich habe schon einen Teilnahmecode:</a><br />
-    <div id="laps2" class="show" data-parent="#signaccord">
+    <div id="laps2" class="collapse" data-parent="#signaccord">
       <form id="enter_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
         {% csrf_token %}
     
         {% if formC.non_field_errors %}
           <label for="{{form.auto_id}}" class="col control-label"> </label>
-          <div style="color: #ee6924;">{{form.non_field_errors}}</div>
+          <div style="color: #ee6924;">{{formC.non_field_errors}}</div>
         {% endif %}
 
         {% include 'frontend/form-field-snippet.html' with f=formC.partcode %}
@@ -42,8 +42,8 @@
   </div>
 
   <div class="border-rounded">
-    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps1" aria-expanded="false">Neu anmelden:</a><br />
-    <div id="laps1" class="collapse" data-parent="#signaccord">
+    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps1" aria-expanded="false">Ich bin zum ersten mal hier:</a><br />
+    <div id="laps1" class="show" data-parent="#signaccord">
       <form id="enter_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
         {% csrf_token %}
     
@@ -54,7 +54,9 @@
 
         {% if event %}
           <input id="id_shortcut" type="hidden" name="shortcut" value="{{event.namecode}}">
+          <div class="text-center mt-5">
           <h2>{{event.name}}</h2>
+          </div>
         {% else %}
           {% include 'frontend/form-field-snippet.html' with f=form.shortcut %}
         {% endif %}

@@ -26,6 +26,7 @@
             <ul class="list-group">
             {% for g in guests %}
             <li class="list-group-item">
+            <a href="{% url 'event.participant.remove' gid=g.id %}" title="Gast entfernen" class="float-right"><i class="text-danger far fa-times-circle"></i> entfernen</a>
             Name: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="name" value="{{g.name}}"></input> 
             Teilnahme: 
                 <select data-action="change" data-guest="{{g.id}}" data-name="participation" class="custom-select">
