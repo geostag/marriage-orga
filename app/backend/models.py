@@ -33,7 +33,7 @@ class Participant(models.Model):
     email = models.EmailField("E-Mail",null=True,blank=True,default="")
     phone = models.CharField("Telefonnummer",max_length=100,null=True,blank=True,default="")
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    subcode = models.CharField("Anmeldecode",max_length=16,blank=True,unique = True)
+    subcode = models.CharField("Anmeldecode",max_length=16,blank=True)
     participation_choices = ( (0,"---"),(1,"ich komme"),(2,"ich komme nicht"),(3,"weiß noch nicht"))
     participation = models.IntegerField('Teilnahme',choices=participation_choices, default=0)
     
