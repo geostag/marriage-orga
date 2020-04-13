@@ -37,10 +37,10 @@
         </li>
     {% endif %}
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='ro' %}?next=/" title="Seite verlassen"><img width="24" src="{% static 'images/romania-30.png' %}"></a>
+            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='ro' %}?next={{ request.path | urlencode }}" title="Seite verlassen"><img width="24" src="{% static 'images/romania-30.png' %}"></a>
         </li>
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='de' %}?next=/" title="Seite verlassen"><img width="24" src="{% static 'images/deutschland-30.png' %}"></a>
+            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='de' %}?next={{ request.path | urlencode }}" title="Seite verlassen"><img width="24" src="{% static 'images/deutschland-30.png' %}"></a>
         </li>
     
     
