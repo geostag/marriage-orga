@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils import translation
 from django.conf import settings
 from django.urls import reverse
 from django.http import Http404,HttpResponse,HttpResponseBadRequest,HttpResponseNotFound,HttpResponseForbidden, HttpResponseRedirect
@@ -20,3 +21,9 @@ def base(request):
 def rendertemplate(request,template):
     return render(request,template,{})
     
+def set_language(request,lang):
+    next = request.GET.get("next")
+    translation.activate(lang)
+    response = HttpResponseRedirect(next)
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response

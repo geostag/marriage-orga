@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^resetpassword/$',    frontend.authviews.reset_password,name="reset_password"),
     url(r'^resetpassword/confirm/(?P<oikey>.+)/$',      frontend.authviews.reset_password_step2,name="reset_password_step2"),
     url(r'^changepassword/$',    frontend.authviews.change_password,name="change_password"),
+    url(r'^setlanguage/(?P<lang>.+)/$',    frontend.views.set_language,name="set_language"),
 ]

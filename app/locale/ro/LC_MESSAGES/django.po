@@ -16,28 +16,32 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #: .\event\forms.py:6
 msgid "Eventname"
-msgstr ""
+msgstr "ROEventname"
 
 #: .\event\forms.py:7
 msgid "Passwort"
-msgstr ""
+msgstr "ROPasswort"
 
 #: .\event\forms.py:10
 msgid "Teilnahmecode"
-msgstr ""
+msgstr "ROTeilnahmecode"
 
 #: .\event\templates\event\enter.html:20
 msgid "Ich habe schon einen Teilnahmecode"
-msgstr ""
+msgstr "ROIch habe schon einen Teilnahmecode"
 
 #: .\event\templates\event\enter.html:33 .\event\templates\event\enter.html:68
 msgid "Anmelden"
-msgstr ""
+msgstr "ROAnmelden"
 
 #: .\event\templates\event\enter.html:46
 msgid "Ich bin zum ersten mal hier"
-msgstr ""
+msgstr "ROIch bin zum ersten mal hier"
+
+#~ msgid "testtext"
+#~ msgstr "RO TEST"

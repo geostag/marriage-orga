@@ -54,7 +54,7 @@ def enter(request,shortcut=None):
                         pass
                     form.add_error(None,"Anmeldung fehlgeschlagen")
                     
-    c = {"formC": formC, "form": form, "event": event, "test": _("testtext") }
+    c = {"formC": formC, "form": form, "event": event }
     return render(request,"event/enter.html" ,c)
     
 def participate(request):
