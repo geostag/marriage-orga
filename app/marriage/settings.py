@@ -105,6 +105,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+                'marriage.template_export.variable_export',
                 'event.context_event.event_export',
             ],
         },
@@ -120,8 +121,6 @@ SETTINGS_EXPORT = [
     'BASE_ADDRESS',
     'OUR_EMAIL',
     'SW_HEADER_INSTANCE',
-    'ALB_DISABLE_REGISTRATION',
-    'ALB_LOGOLINK'
 ]
 
 WSGI_APPLICATION = 'marriage.wsgi.application'

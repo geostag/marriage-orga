@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http import Http404,HttpResponse,HttpResponseBadRequest,HttpResponseNotFound,HttpResponseForbidden, HttpResponseRedirect
@@ -53,7 +54,7 @@ def enter(request,shortcut=None):
                         pass
                     form.add_error(None,"Anmeldung fehlgeschlagen")
                     
-    c = {"formC": formC, "form": form, "event": event }
+    c = {"formC": formC, "form": form, "event": event, "test": _("testtext") }
     return render(request,"event/enter.html" ,c)
     
 def participate(request):

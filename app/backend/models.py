@@ -6,7 +6,7 @@ import random,string
 class Event(models.Model):
     name = models.CharField("Event Name",max_length=100)
     namecode = models.CharField("Shortcut",max_length=32)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     autoreg = models.CharField(max_length=32,blank=True)
     password = models.CharField("Passwort",max_length=32,blank=True)
     

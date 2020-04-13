@@ -6,7 +6,7 @@ echo setting up env
 
 rem with http (NOT https) as a proxy, git-gui works
 rem set HTTPS_PROXY=http://10.158.0.79:80/
-set path=%USERPROFILE%\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\georg.ostertag\AppData\Local\Programs\Python\Python37\;%path%
+set path=%USERPROFILE%\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\georg.ostertag\AppData\Local\Programs\Python\Python37\;C:\var\workplace\soft\gettext\bin;C:\var\workplace\soft\libiconv\bin;C:\var\workplace\soft\libexpat\bin;%path%
 
 set appbasedir=c:\var\workplace\marriage-orga
 

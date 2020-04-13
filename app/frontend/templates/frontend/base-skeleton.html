@@ -41,7 +41,7 @@
         {% else %}    
             <span class="header-instance"></span>
         {% endif %}
-        <a class="navbar-brand" href="{% if settings.ALB_LOGOLINK %}{{ settings.ALB_LOGOLINK }}{% else %}{% url 'landingpage' %}{% endif %}"><img width="32" height="32" src="{% static 'images/icon-256.png' %}" /> {{settings.APP_NAME}}</a>
+        <a class="navbar-brand" href="{% url 'landingpage' %}"><img width="32" height="32" src="{% static 'images/icon-256.png' %}" /> {{settings.APP_NAME}}</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
