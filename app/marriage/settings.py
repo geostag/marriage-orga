@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PFX = os.getenv("appname","set_appname_in_env.sh")
 
 APP_NAME = "Marriage Orga"
 BASE_ADDRESS = "http://www.ostertage.de"
@@ -146,12 +147,12 @@ CACHE_TIMEOUT_IMAGEBASE64 = 42200
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'jstcache',
+        'LOCATION': 'dj_cache',
         'TIMEOUT': 3600 * 24 * 31,
     },
     'fs' : {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/tmp/jst_cache_%s' % INSTANCE,
+        'LOCATION': '/var/tmp/%s_cache_%s' % (PFX,INSTANCE),
         'TIMEOUT': 60,
     }
 }
@@ -180,7 +181,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 RUNTIME_DIR = os.environ["dj_runtimedir"]
 
-PFX = os.getenv("appname","set_appname_in_env.sh")
 if INSTANCE == "PROD":
     STATIC_URL  = '/%s-static/' % PFX
     MEDIA_URL   = '/%s-media/' % PFX
