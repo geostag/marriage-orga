@@ -16,6 +16,7 @@ set RELEASE="dev"
 set SECRET_KEY="_)9u76xogosaka&$5)0ertz9iv)h56kje@49rsc)2igi=y65o$"
 set SW_HEADER_INSTANCE=Full
 set INSTANCE=DEV
+set appname=marriage
 
 set APP_PORT=8001
 

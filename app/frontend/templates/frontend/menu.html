@@ -18,8 +18,21 @@
             </div>
         </li>
     {% else %}
+        <!--
         <li class="nav-item">
             <a title="Login" class="nav-link" href="{% url 'login'%}"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
+        </li>
+        -->
+    {% endif %}
+    {% if participant %}
+        <li class="nav-item">
+            <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">Mein Teilnahmecode: {{participant.subcode}}</a>
+        </li>
+    {% endif %}
+    {% if event %}
+        <!-- event authenticated -->
+        <li class="nav-item">
+            <a class="dropdown-item nav-link" href="{% url 'event.leave' %}" title="Seite verlassen"><i class="fas fa-sign-out-alt"></i> Seite verlassen</a>
         </li>
     {% endif %}
     

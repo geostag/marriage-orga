@@ -1,0 +1,92 @@
+{% extends "frontend/base.html" %}
+
+{% block headerstyle %}
+<style type="text/css">
+    .guestlist .form-control,
+    .guestlist .custom-select{
+        display: inline;
+        width: inherit;
+    }
+</style>
+{% endblock headerstyle %}
+
+{% block content %}
+<!-- event/paricipate.html -->
+
+<h1>{{event.name}}</h1>
+<div class="mb-4" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="card">
+        <div class="card-header" role="tab" id="headingOne">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Gäste</a>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+          <div class="card-body guestlist">
+            <ul class="list-group">
+            {% for g in guests %}
+            <li class="list-group-item">
+            Name: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="name" value="{{g.name}}"></input> 
+            Teilnahme: 
+                <select data-action="change" data-guest="{{g.id}}" data-name="participation" class="custom-select">
+                <option value="0"{% if g.participation == 0 %} selected{% endif %}>---</option>
+                <option value="1"{% if g.participation == 1 %} selected{% endif %}>ich komme</option>
+                <option value="2"{% if g.participation == 2 %} selected{% endif %}>ich komme nicht</option>
+                <option value="3"{% if g.participation == 3 %} selected{% endif %}>weiß noch nicht</option>
+                </select>
+            <br />
+            E-Mail: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="email" value="{{g.email}}"></input> 
+            Fon: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="phone" value="{{g.phone}}"></input> 
+            </li>
+            {% endfor %}
+            <li class="list-group-item"><a href="{% url 'event.participant.add' %}" title="Gast hinzufügen"><i class="fa fa-plus-square"></i> Gast hinzufügen</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" role="tab" id="headingTwo">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Essen</a>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="card-body">
+            Was Du mitbringst
+          </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block bottom-scripts %}
+<script type="text/javascript">
+$(document).ready(function() { 
+    $("[data-action=change]").focus( function(){
+        $(this).css("background-color","#fff7e0")
+    })
+        
+    $(document).on("change","[data-action=change]", function(){
+        var gid  = $(this).attr("data-guest")
+        var name = $(this).attr("data-name")
+        var value = $(this).val()
+        var e = $(this)
+        console.log("Change: "+gid+" "+name+" "+value)
+        $.ajax({
+            method: "POST",
+            data: { "gid": gid, "name": name, "value": value, "csrfmiddlewaretoken": "{{ csrf_token }}" },
+            url: "{% url 'event.participant.set' %}",
+            success: function(r){
+                e.css("background-color","#ffffff")
+                console.log(r);
+            },
+            error: function(r){
+                console.log(r);
+            }
+        });
+    })
+})
+</script>
+{% endblock %}

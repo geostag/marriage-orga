@@ -49,7 +49,7 @@ else:
 ALLOWED_HOSTS = [os.getenv("HOSTNAME",""),'localhost']
 
 # Session information
-SESSION_COOKIE_AGE = 48 * 3600
+SESSION_COOKIE_AGE = 365 * 24 * 3600
 SESSION_COOKIE_NAME = "maor%s" % INSTANCE
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_CACHE_ALIAS = 'fs'
@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend',
     'frontend',
+    'event',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +104,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+                'event.context_event.event_export',
             ],
         },
     },

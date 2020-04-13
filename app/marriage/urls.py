@@ -28,4 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', frontend.views.landingpage, name='landingpage'),
     path(r'frontend/',  include("frontend.urls")),
+    path(r'event/',     include("event.urls")),
 ]
