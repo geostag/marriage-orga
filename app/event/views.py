@@ -25,7 +25,7 @@ def enter(request,shortcut=None):
             formC = EnterWithCodeForm(request.POST)
             if formC.is_valid():
                 try:
-                    p = Participant.objects.get(subcode = formC.cleaned_data['partcode'])
+                    p = Participant.objects.filter(subcode = formC.cleaned_data['partcode']).order_by("id")[0]
                     e = p.event
                     request.session["pid"] = p.id
                     request.session["eid"] = e.id
@@ -42,6 +42,15 @@ def enter(request,shortcut=None):
                     request.session["eid"] = event.id
                     return HttpResponseRedirect(reverse("event.participate"))
                 else:
+                    # try: partcode????
+                    try:
+                        p = Participant.objects.filter(subcode = form.cleaned_data['password']).order_by("id")[0]
+                        if p.event == event:
+                            request.session["pid"] = p.id
+                            request.session["eid"] = event.id
+                            return HttpResponseRedirect(reverse("event.participate"))
+                    except:
+                        pass
                     form.add_error(None,"Anmeldung fehlgeschlagen")
                     
     c = {"formC": formC, "form": form, "event": event }

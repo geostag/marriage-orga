@@ -6,4 +6,4 @@ class EnterForm(forms.Form):
     password = forms.CharField(label='',required=True,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Passwort'}))
 
 class EnterWithCodeForm(forms.Form):
-    partcode = forms.CharField(label='',required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Teilnahmeccode'}))
+    partcode = forms.CharField(label='',required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Teilnahmecode'}))
