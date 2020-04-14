@@ -2,27 +2,24 @@
 
 <ul class="navbar-nav">
     {% if user.is_authenticated %}
-        <li class="nav-item">
-            <a title="Home" class="nav-link" href="{% url 'landingpage' %}"><i class="fas fa-home"></i></a>
-        </li>
         {% if user.is_superuser %}
         <li>
             <a title="Admin" class="nav-link" href="{% url 'admin:index' %}"><span class="text-danger"><i class="fas fa-user-shield"></i></span></a>
         </li>
         {% endif %}
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown text-danger">
             <a class="nav-link dropdown-toggle" href="#" id="atticDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-cogs text-danger"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <a class="dropdown-item nav-link" href="{% url 'change_password' %}" title="Passwort ändern"><i class="fas fa-key"></i> Passwort ändern</a>
+                <a class="dropdown-item nav-link" href="{% url 'backend.base'%}" title="Event Admin"><i class="fas fa-cogs"></i> Event Admin</a>
                 <a class="dropdown-item nav-link" href="{% url 'logout' %}?next={% url 'landingpage' %}" title="Abmelden"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
             </div>
         </li>
     {% endif %}
     {% if participant %}
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">{% trans "Mein Teilnahmecode" %}: <span class="text-danger">{{participant.subcode}}</span></a>
+            <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">{% trans "Mein Teilnahmecode" %}: <span class="text-success">{{participant.subcode}}</span></a>
         </li>
     {% endif %}
     {% if event %}
