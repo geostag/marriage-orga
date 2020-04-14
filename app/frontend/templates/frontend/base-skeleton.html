@@ -69,9 +69,7 @@
       <div class="container text-muted text-small">
         <div class="row">
           <div class="col">
-            {% if not user.is_authenticated %}
-              <a title="Admin Login" href="{% url 'login'%}"><i class="fas fa-cogs"></i> Admin</a>
-            {% endif %}
+            <a title="Admin Login" href="{% url 'login'%}"><i class="fas fa-cogs"></i> Admin</a>
             {% block footerlinks %}
             {% endblock footerlinks %}
           </div>

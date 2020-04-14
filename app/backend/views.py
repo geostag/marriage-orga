@@ -9,6 +9,14 @@ from backend.models import Event, Participant
 # Create your views here.
 
 @login_required
+def base(request):
+    el = Event.objects.filter(user=request.user)
+    if len(el) == 1:
+        return HttpResponseRedirect(reverse("backend.event",kwargs = {"id": el[0].id } ))
+    else:
+        return( render(request,"backend/event_select.html",{ "eventlist": el } ) )
+
+@login_required
 def event(request,id):
     try: 
         e = Event.objects.get(id = int(id))

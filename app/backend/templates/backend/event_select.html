@@ -1,0 +1,20 @@
+{% extends "frontend/base-boxed.html" %}
+
+{% block headerstyle %}
+{% endblock headerstyle %}
+
+{% block content %}
+<!-- backend/event_select.html -->
+<h1>Event Auswahl</h1>
+
+
+{% for e in eventlist %}
+
+<p><a class="btn btn-primary" role="button" href="{% url 'backend.event' id=e.id %}">{{e.name}}</a></p>
+
+{% endfor %}
+
+{% endblock content %}
+
+{% block bottom-scripts %}
+{% endblock %}

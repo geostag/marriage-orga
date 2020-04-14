@@ -21,103 +21,97 @@ msgstr ""
 
 #: .\event\forms.py:6
 msgid "Eventname"
-msgstr "rumänisch für Eventname"
+msgstr "Numele evenimentului"
 
 #: .\event\forms.py:7
 msgid "Passwort"
-msgstr ""
+msgstr "Parola"
 
 #: .\event\forms.py:10
 msgid "Teilnahmecode"
-msgstr ""
+msgstr "Cod de participare"
 
 #: .\event\templates\event\enter.html:20
 msgid "Ich habe schon einen Teilnahmecode"
-msgstr ""
+msgstr "Am deja un Cod de participare"
 
 #: .\event\templates\event\enter.html:33 .\event\templates\event\enter.html:68
 msgid "Anmelden"
-msgstr ""
+msgstr "Inregistrare"
 
 #: .\event\templates\event\enter.html:46
 msgid "Ich bin zum ersten mal hier"
-msgstr ""
+msgstr "Sunt pentru prima oara aici"
 
 #: .\event\templates\event\my-code.html:11
-#, fuzzy
-#| msgid "Teilnahmecode"
 msgid "Dein Teilnahmecode"
-msgstr ""
+msgstr "Codul Tau de participare"
 
 #: .\event\templates\event\my-code.html:15
 msgid ""
 "Bitte notiere Dir diesen Code. Du kannst damit jederzeit später Deine "
 "Anmeldedaten anpassen."
-msgstr ""
+msgstr "Noteaza te rog acest cod. Cu el, poti sa accesezi oricand contul tau"
 
 #: .\event\templates\event\my-code.html:18
 msgid "Weiter"
-msgstr ""
+msgstr "Continuare"
 
 #: .\event\templates\event\participate.html:21
 msgid "Gäste"
-msgstr ""
+msgstr "Musafiri"
 
 #: .\event\templates\event\participate.html:30
 msgid "entfernen"
-msgstr ""
+msgstr "indepartare"
 
 #: .\event\templates\event\participate.html:32
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #: .\event\templates\event\participate.html:33
-#, fuzzy
-#| msgid "Teilnahmecode"
 msgid "Teilnahme"
-msgstr ""
+msgstr "Participare"
 
 #: .\event\templates\event\participate.html:36
 msgid "ich komme"
-msgstr ""
+msgstr "particip"
 
 #: .\event\templates\event\participate.html:37
 msgid "ich komme nicht"
-msgstr ""
+msgstr "Nu pot participa"
 
 #: .\event\templates\event\participate.html:38
 msgid "weiß noch nicht"
-msgstr ""
+msgstr "nu stiu inca"
 
 #: .\event\templates\event\participate.html:41
 msgid "E-Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #: .\event\templates\event\participate.html:42
 msgid "Telefon/Handy"
-msgstr ""
+msgstr "Telefon/Telefon mobil"
 
 #: .\event\templates\event\participate.html:45
 msgid "Gast hinzufügen"
-msgstr ""
+msgstr "Adaugare musafir"
 
 #: .\frontend\authviews.py:32
 msgid "Ein User mit dieser Email Adresse existiert bereits."
-msgstr ""
+msgstr "Un utilizator cu aceasta adressa de Mail exista deja."
 
 #: .\frontend\templates\frontend\base-skeleton.html:84
 msgid "Datenschutz+Impressum"
-msgstr ""
+msgstr "Protectia datelor"
 
 #: .\frontend\templates\frontend\menu.html:25
-#, fuzzy
-#| msgid "Teilnahmecode"
 msgid "Mein Teilnahmecode"
-msgstr ""
+msgstr "Codul meu de participant"
 
 #: .\frontend\templates\frontend\menu.html:31
 msgid "Seite verlassen"
-msgstr ""
+msgstr "Paraseste site-ul"
 
 #~ msgid "testtext"
 #~ msgstr "RO TEST"
