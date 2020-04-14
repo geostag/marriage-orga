@@ -14,14 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
 from django.urls import path
 from django.conf.urls import include, url
 import frontend.views
 
-#handler403 = "v2.views.status403"
-#handler404 = "v2.views.status404"
-#if not settings.DEBUG:
-#    handler500 = "v2.views.status500"
+handler403 = "frontend.views.status403"
+handler404 = "frontend.views.status404"
+if not settings.DEBUG:
+    handler500 = "frontend.views.status500"
 
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
     url(r'^$', frontend.views.landingpage, name='landingpage'),
     path(r'frontend/',  include("frontend.urls")),
     path(r'event/',     include("event.urls")),
+    path(r'manage/',    include("backend.urls")),
 ]

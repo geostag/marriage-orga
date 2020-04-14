@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
@@ -77,7 +78,7 @@ def participant_set(request):
     e = Event.getfromsession(request)
     p = Participant.getfromsession(request)
     if not e or not p:
-        return HttpResponseForbidden("event or participant not set")
+        raise PermissionDenied("Event nicht gefunden")
         
     g = Participant.objects.get(id = request.POST.get("gid"))
     n = request.POST.get("name")
@@ -100,7 +101,7 @@ def participant_add(request):
     e = Event.getfromsession(request)
     p = Participant.getfromsession(request)
     if not e or not p:
-        return HttpResponseForbidden("event or participant not set")
+        raise PermissionDenied("Event nicht gefunden")
     g = Participant(event=e,subcode=p.subcode)
     g.save()
     return HttpResponseRedirect(reverse("event.participate"))
@@ -109,7 +110,7 @@ def participant_remove(request,gid):
     e = Event.getfromsession(request)
     p = Participant.getfromsession(request)
     if not e or not p:
-        return HttpResponseForbidden("event or participant not set")
+        raise PermissionDenied("Event nicht gefunden")
     g = Participant.objects.get(id = int(gid))
     g.delete()
     return HttpResponseRedirect(reverse("event.participate"))

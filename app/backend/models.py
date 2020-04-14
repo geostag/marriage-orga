@@ -1,6 +1,8 @@
+from django.conf import settings
+from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
-import random,string
+import random,string,pyqrcode,tempfile,os
 
 # Create your models here.
 class Event(models.Model):
@@ -19,6 +21,22 @@ class Event(models.Model):
         
     def __str__(self):
         return self.name
+        
+    def can_edit(self,request):
+        return ( request.user == self.user or request.user.is_superuser )
+        
+    def get_url(self):
+        return "%s%s" % (settings.BASE_ADDRESS,reverse("event.enter", kwargs={"shortcut": self.namecode}))
+
+    def get_qrcode(self):
+        qr = pyqrcode.create( self.get_url(), encoding = "utf-8" )
+        fd, fname = tempfile.mkstemp()
+        os.close(fd)
+        qr.svg(fname,scale=2)
+        with open(fname) as f:
+            lines = f.readlines()
+        os.remove(fname)
+        return "".join( [ x.strip() for x in lines ] )
         
     def genkey(self):
         return ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))

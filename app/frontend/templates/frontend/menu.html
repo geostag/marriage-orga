@@ -1,4 +1,5 @@
-{% load static %}
+{% load static %}{% load i18n %}
+
 <ul class="navbar-nav">
     {% if user.is_authenticated %}
         <li class="nav-item">
@@ -18,22 +19,16 @@
                 <a class="dropdown-item nav-link" href="{% url 'logout' %}?next={% url 'landingpage' %}" title="Abmelden"><i class="fas fa-sign-out-alt"></i> Abmelden</a>
             </div>
         </li>
-    {% else %}
-        <!--
-        <li class="nav-item">
-            <a title="Login" class="nav-link" href="{% url 'login'%}"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
-        </li>
-        -->
     {% endif %}
     {% if participant %}
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">Mein Teilnahmecode: <span class="text-danger">{{participant.subcode}}</span></a>
+            <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">{% trans "Mein Teilnahmecode" %}: <span class="text-danger">{{participant.subcode}}</span></a>
         </li>
     {% endif %}
     {% if event %}
         <!-- event authenticated -->
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'event.leave' %}" title="Seite verlassen"><i class="fas fa-sign-out-alt"></i> Seite verlassen</a>
+            <a class="dropdown-item nav-link" href="{% url 'event.leave' %}" title="Seite verlassen"><i class="fas fa-sign-out-alt"></i> {% trans "Seite verlassen" %}</a>
         </li>
     {% endif %}
         <li class="nav-item">

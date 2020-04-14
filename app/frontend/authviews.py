@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.mail import send_mail
+from django.utils.translation import gettext as _
 from django.utils import timezone
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -28,7 +29,7 @@ def register(request):
                 u.set_password(form.cleaned_data["password"])
                 u.save()
             except:
-                form.add_error(None,"Ein User mit dieser Email Adresse existiert bereits.")
+                form.add_error(None,_("Ein User mit dieser Email Adresse existiert bereits."))
             if u.id:
                 do = Doubleoptinlog(user=u)
                 do.save()

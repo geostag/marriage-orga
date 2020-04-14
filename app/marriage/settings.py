@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PFX = os.getenv("appname","set_appname_in_env.sh")
 
 APP_NAME = "Marriage Orga"
-BASE_ADDRESS = "http://www.ostertage.de"
+BASE_ADDRESS = "http://www.alberogen.de"
 OUR_EMAIL = "info@ostertage.de"
 SW_HEADER_INSTANCE = os.getenv("SW_HEADER_INSTANCE","None")
 

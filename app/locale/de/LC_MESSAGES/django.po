@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 23:40+0200\n"
+"POT-Creation-Date: 2020-04-14 08:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,4 +40,74 @@ msgstr ""
 
 #: .\event\templates\event\enter.html:46
 msgid "Ich bin zum ersten mal hier"
+msgstr ""
+
+#: .\event\templates\event\my-code.html:11
+msgid "Dein Teilnahmecode"
+msgstr ""
+
+#: .\event\templates\event\my-code.html:15
+msgid ""
+"Bitte notiere Dir diesen Code. Du kannst damit jederzeit später Deine "
+"Anmeldedaten anpassen."
+msgstr ""
+
+#: .\event\templates\event\my-code.html:18
+msgid "Weiter"
+msgstr ""
+
+#: .\event\templates\event\participate.html:21
+msgid "Gäste"
+msgstr ""
+
+#: .\event\templates\event\participate.html:30
+msgid "entfernen"
+msgstr ""
+
+#: .\event\templates\event\participate.html:32
+msgid "Name"
+msgstr ""
+
+#: .\event\templates\event\participate.html:33
+msgid "Teilnahme"
+msgstr ""
+
+#: .\event\templates\event\participate.html:36
+msgid "ich komme"
+msgstr ""
+
+#: .\event\templates\event\participate.html:37
+msgid "ich komme nicht"
+msgstr ""
+
+#: .\event\templates\event\participate.html:38
+msgid "weiß noch nicht"
+msgstr ""
+
+#: .\event\templates\event\participate.html:41
+msgid "E-Mail"
+msgstr ""
+
+#: .\event\templates\event\participate.html:42
+msgid "Telefon/Handy"
+msgstr ""
+
+#: .\event\templates\event\participate.html:45
+msgid "Gast hinzufügen"
+msgstr ""
+
+#: .\frontend\authviews.py:32
+msgid "Ein User mit dieser Email Adresse existiert bereits."
+msgstr ""
+
+#: .\frontend\templates\frontend\base-skeleton.html:84
+msgid "Datenschutz+Impressum"
+msgstr ""
+
+#: .\frontend\templates\frontend\menu.html:25
+msgid "Mein Teilnahmecode"
+msgstr ""
+
+#: .\frontend\templates\frontend\menu.html:31
+msgid "Seite verlassen"
 msgstr ""

@@ -1,4 +1,4 @@
-{% extends "frontend/base-boxed.html" %}
+{% extends "frontend/base-boxed.html" %}{% load i18n %}
 
 {% block headerstyle %}
 {% endblock headerstyle %}
@@ -8,15 +8,14 @@
 
 <div class="text-center">
 
-<h2>Dein Teilnahmecode:</h2>
+<h2>{% trans "Dein Teilnahmecode" %}:</h2>
 
 <h1 class="text-danger">{{code}}</h1>
 
-Bitte notiere Dir diesen Code. Du kannst damit jederzeit später
-Deine Anmeldedaten anpassen.
+{% trans "Bitte notiere Dir diesen Code. Du kannst damit jederzeit später Deine Anmeldedaten anpassen." %}
 
 <div>
-<a class="btn btn-primary" role="button" href="{% url 'event.participate' %}">Weiter</a>
+<a class="btn btn-primary" role="button" href="{% url 'event.participate' %}">{% trans "Weiter" %}</a>
 </div>
 
 </div>

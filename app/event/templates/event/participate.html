@@ -1,4 +1,4 @@
-{% extends "frontend/base.html" %}
+{% extends "frontend/base.html" %}{% load i18n %}
 
 {% block headerstyle %}
 <style type="text/css">
@@ -18,7 +18,7 @@
     <div class="card">
         <div class="card-header" role="tab" id="headingOne">
           <h5 class="mb-0">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Gäste</a>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{% trans "Gäste" %}</a>
           </h5>
         </div>
         <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
@@ -27,22 +27,22 @@
             {% for g in guests %}
             <li class="list-group-item">
             {% if not forloop.first %}
-            <a href="{% url 'event.participant.remove' gid=g.id %}" title="Gast entfernen" class="float-right"><i class="text-danger far fa-times-circle"></i> entfernen</a>
+            <a href="{% url 'event.participant.remove' gid=g.id %}" title="Gast entfernen" class="float-right"><i class="text-danger far fa-times-circle"></i> {% trans "entfernen" %}</a>
             {% endif %}
-            Name: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="name" value="{{g.name}}"></input> 
-            Teilnahme: 
+            {% trans "Name" %}: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="name" value="{{g.name}}"></input> 
+            {% trans "Teilnahme" %}: 
                 <select data-action="change" data-guest="{{g.id}}" data-name="participation" class="custom-select">
                 <option value="0"{% if g.participation == 0 %} selected{% endif %}>---</option>
-                <option value="1"{% if g.participation == 1 %} selected{% endif %}>ich komme</option>
-                <option value="2"{% if g.participation == 2 %} selected{% endif %}>ich komme nicht</option>
-                <option value="3"{% if g.participation == 3 %} selected{% endif %}>weiß noch nicht</option>
+                <option value="1"{% if g.participation == 1 %} selected{% endif %}>{% trans "ich komme" %}</option>
+                <option value="2"{% if g.participation == 2 %} selected{% endif %}>{% trans "ich komme nicht" %}</option>
+                <option value="3"{% if g.participation == 3 %} selected{% endif %}>{% trans "weiß noch nicht" %}</option>
                 </select>
             <br />
-            E-Mail: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="email" value="{{g.email}}"></input> 
-            Fon: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="phone" value="{{g.phone}}"></input> 
+            {% trans "E-Mail" %}: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="email" value="{{g.email}}"></input> 
+            {% trans "Telefon/Handy" %}: <input class="form-control" data-action="change" data-guest="{{g.id}}" data-name="phone" value="{{g.phone}}"></input> 
             </li>
             {% endfor %}
-            <li class="list-group-item"><a href="{% url 'event.participant.add' %}" title="Gast hinzufügen"><i class="fa fa-plus-square"></i> Gast hinzufügen</a></li>
+            <li class="list-group-item"><a href="{% url 'event.participant.add' %}" title="Gast hinzufügen"><i class="fa fa-plus-square"></i> {% trans "Gast hinzufügen" %}</a></li>
             </ul>
           </div>
         </div>
