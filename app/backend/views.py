@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import Http404,HttpResponse, HttpResponseRedirect
 from backend.models import Event, Participant
+from backend.forms import DocumentForm
 
 # Create your views here.
 
@@ -28,8 +29,25 @@ def event(request,id):
             
     if not e.can_edit(request):
         raise PermissionDenied("Event gesperrt")
-    
-    c = { "mevent": e, "guests": Participant.objects.filter(event=e) }
+        
+    if request.POST:
+        dform = DocumentForm(request.POST,request.FILES)
+        if dform.is_valid():
+            d = dform.save(commit=False)
+            if not d.event == e:
+                raise Http404("Falsches Event angegeben")
+            dform.save()
+        else:
+            dform.add_error(None,"Es ist ein Fehler aufgetreten.")
+    else:
+        dform = DocumentForm(initial={'event': e})
+        
+    c = { 
+        "mevent": e, 
+        "guests": Participant.objects.filter(event=e), 
+        "dform": dform,
+        "documentlist": e.document_set.all()
+    }
     return render(request,"backend/event.html",c)
             
 @login_required

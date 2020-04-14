@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from django.conf.urls import include, url
 import frontend.views
@@ -32,3 +33,7 @@ urlpatterns = [
     path(r'event/',     include("event.urls")),
     path(r'manage/',    include("backend.urls")),
 ]
+
+if settings.DEBUG:
+    print("DEBUG mode: serving media files")
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

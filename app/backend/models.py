@@ -2,9 +2,14 @@ from django.conf import settings
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
-import random,string,pyqrcode,tempfile,os
+import random,string,pyqrcode,tempfile,os,re,time
 
 # Create your models here.
+
+def get_upload_filename_document(instance, filename):
+    instance.name = filename
+    return "backend/%d/%s-%s" % (instance.event.id,str(time.time()).replace('.','-'), re.sub("[^-0-9a-zA-Z_.]","",filename))
+ 
 class Event(models.Model):
     name = models.CharField("Event Name",max_length=100)
     namecode = models.CharField("Shortcut",max_length=32)
@@ -46,6 +51,15 @@ class Event(models.Model):
             self.autoreg = self.genkey()
         super(Event, self).save(*args, **kwargs)
 
+class Document(models.Model):
+    file    = models.FileField('Dokument',upload_to=get_upload_filename_document)
+    name    = models.CharField(max_length=80)
+    notes   = models.TextField(max_length=400, blank=True)
+    event   = models.ForeignKey(Event, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.name)
+ 
 class Participant(models.Model):
     name = models.CharField("Name",max_length=100, default="-")
     email = models.EmailField("E-Mail",null=True,blank=True,default="")
