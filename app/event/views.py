@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http import Http404,HttpResponse,HttpResponseBadRequest,HttpResponseNotFound,HttpResponseForbidden, HttpResponseRedirect
 from event.forms import EnterForm, EnterWithCodeForm
-from backend.models import Event, Participant
+from backend.models import Event, Participant, Contribution, Ci
 
 # Create your views here.
 
@@ -71,7 +71,16 @@ def participate(request):
         return render(request,"event/my-code.html" ,{ "code": p.subcode })
         
     guests = Participant.objects.filter(subcode = p.subcode)
-    c = { "guests": guests }
+    
+    cis = []
+    for c in e.contribution_set.all():
+        try:
+            ci = c.ci_set.get(subcode = p.subcode)
+        except:
+            ci = Ci(contribution=c,subcode=p.subcode)
+            ci.save()
+        cis.append(ci)
+    c = { "guests": guests, "cis": cis }
     return render(request,"event/participate.html" ,c)
 
 def participant_set(request):
@@ -114,3 +123,15 @@ def participant_remove(request,gid):
     g = Participant.objects.get(id = int(gid))
     g.delete()
     return HttpResponseRedirect(reverse("event.participate"))
+    
+
+def ci_set(request):
+    e = Event.getfromsession(request)
+    p = Participant.getfromsession(request)
+    if not e or not p:
+        raise PermissionDenied("Event nicht gefunden")
+        
+    ci = Ci.objects.get(id = request.POST.get("id"))
+    ci.name = request.POST.get("value")
+    ci.save()
+    return HttpResponse("saved")

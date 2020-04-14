@@ -103,6 +103,24 @@ class Participant(models.Model):
 class Contribution(models.Model):
     name = models.CharField(max_length=100)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    notes = models.TextField(max_length=400, blank=True)
 
     def __str__(self):
-        return "%s: %s (%s)" (self.event.name,self.name,str(self.user))
+        return "%s: %s" % (self.event.name,self.name)
+
+class Ci(models.Model):
+    name = models.CharField(max_length=200)
+    contribution = models.ForeignKey(Contribution, on_delete=models.CASCADE)
+    subcode = models.CharField("Anmeldecode",max_length=16,blank=True)
+    guestname = models.CharField("Gastname",max_length=100, default="-")
+
+    def __str__(self):
+        return "%s: %s" % (self.contribution.name,self.guestname)
+        
+    def save(self, *args, **kwargs):
+        print("A")
+        p = Participant.objects.filter(subcode = self.subcode)[0]
+        self.guestname = p.name
+        print(p.name)
+        print(self.guestname)
+        super(Ci, self).save(*args, **kwargs)

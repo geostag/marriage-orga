@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^participant/set/$',        event.views.participant_set,name="event.participant.set"),
     url(r'^participant/add/$',        event.views.participant_add,name="event.participant.add"),
     url(r'^participant/remove/(?P<gid>\d+)/$',     event.views.participant_remove,name="event.participant.remove"),
+    url(r'^ci/set/$',                 event.views.ci_set,name="event.ci.set"),
 ]

@@ -40,7 +40,7 @@
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{% trans "Gäste" %}</a>
           </h5>
         </div>
-        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+        <div id="collapseOne" class="show" role="tabpanel" aria-labelledby="headingOne">
           <div class="card-body guestlist">
             <ul class="list-group">
             {% for g in guests %}
@@ -66,18 +66,28 @@
           </div>
         </div>
     </div>
+    {% if cis|length > 0 %}
     <div class="card">
         <div class="card-header" role="tab" id="headingTwo">
           <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Essen</a>
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Beiträge" %}</a>
           </h5>
         </div>
         <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
           <div class="card-body">
-            Was Du mitbringst
+            <ul class="list-group">
+            {% for ci in cis %}
+              <li class="list-group-item">
+                <span class="font-weight-bold">{{ci.contribution.name}}</span><br />
+                {{ci.contribution.notes}}<br />
+                <input class="form-control" data-action="change-ci" data-id="{{ci.id}}" value="{{ci.name}}"></input> 
+              </li>
+            {% endfor %}
+            </ul>
           </div>
         </div>
     </div>
+    {% endif %}
 
 </div>
 
@@ -87,6 +97,9 @@
 <script type="text/javascript">
 $(document).ready(function() { 
     $("[data-action=change]").focus( function(){
+        $(this).css("background-color","#fff7e0")
+    })
+    $("[data-action=change-ci]").focus( function(){
         $(this).css("background-color","#fff7e0")
     })
         
@@ -103,6 +116,23 @@ $(document).ready(function() {
             success: function(r){
                 e.css("background-color","#ffffff")
                 console.log(r);
+            },
+            error: function(r){
+                console.log(r);
+            }
+        });
+    })
+    $(document).on("change","[data-action=change-ci]", function(){
+        var ciid  = $(this).attr("data-id")
+        var value = $(this).val()
+        var e = $(this)
+        console.log(ciid+" "+value)
+        $.ajax({
+            method: "POST",
+            data: { "id": ciid, "value": value, "csrfmiddlewaretoken": "{{ csrf_token }}" },
+            url: "{% url 'event.ci.set' %}",
+            success: function(r){
+                e.css("background-color","#ffffff")
             },
             error: function(r){
                 console.log(r);
