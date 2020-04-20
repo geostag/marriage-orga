@@ -10,6 +10,9 @@ def get_upload_filename_document(instance, filename):
     instance.name = filename
     return "backend/%d/%s-%s" % (instance.event.id,str(time.time()).replace('.','-'), re.sub("[^-0-9a-zA-Z_.]","",filename))
  
+def get_upload_filename_image(instance, filename):
+    return "backend/%d/%s-%s" % (instance.checkoutlist.event.id,str(time.time()).replace('.','-'), re.sub("[^-0-9a-zA-Z_.]","",filename))
+ 
 class Event(models.Model):
     name = models.CharField("Event Name",max_length=100)
     namecode = models.CharField("Shortcut",max_length=32)
@@ -126,3 +129,26 @@ class Ci(models.Model):
         print(p.name)
         print(self.guestname)
         super(Ci, self).save(*args, **kwargs)
+
+# this is: "Geschenkeliste"
+class Checkoutlist(models.Model):
+    name = models.CharField(max_length=100)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    notes = models.TextField(max_length=400, blank=True)
+
+    def __str__(self):
+        return "%s: %s" % (self.event.name,self.name)
+
+# this is "Geschenk"
+class Coli(models.Model):
+    name = models.CharField(max_length=200)
+    url = models.CharField(max_length=400, blank=True, null=True)
+    image = models.FileField('Bild',upload_to=get_upload_filename_image, blank=True, null=True)
+    notes = models.TextField(max_length=400, blank=True)
+    checkoutlist = models.ForeignKey(Checkoutlist, on_delete=models.CASCADE)
+    subcode = models.CharField("Anmeldecode",max_length=16,blank=True)
+    guestname = models.CharField("Gastname",max_length=100, default="-", blank=True, null=True)
+    
+    def __str__(self):
+        return "%s: %s" % (self.checkoutlist.name,self.name)
+
