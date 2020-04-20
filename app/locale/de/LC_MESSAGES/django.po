@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 08:05+0200\n"
+"POT-Creation-Date: 2020-04-20 09:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,57 +57,65 @@ msgid "Weiter"
 msgstr ""
 
 #: .\event\templates\event\participate.html:21
+msgid "Informationen"
+msgstr ""
+
+#: .\event\templates\event\participate.html:40
 msgid "Gäste"
 msgstr ""
 
-#: .\event\templates\event\participate.html:30
+#: .\event\templates\event\participate.html:49
 msgid "entfernen"
 msgstr ""
 
-#: .\event\templates\event\participate.html:32
+#: .\event\templates\event\participate.html:51
 msgid "Name"
 msgstr ""
 
-#: .\event\templates\event\participate.html:33
+#: .\event\templates\event\participate.html:52
 msgid "Teilnahme"
 msgstr ""
 
-#: .\event\templates\event\participate.html:36
+#: .\event\templates\event\participate.html:55
 msgid "ich komme"
 msgstr ""
 
-#: .\event\templates\event\participate.html:37
+#: .\event\templates\event\participate.html:56
 msgid "ich komme nicht"
 msgstr ""
 
-#: .\event\templates\event\participate.html:38
+#: .\event\templates\event\participate.html:57
 msgid "weiß noch nicht"
 msgstr ""
 
-#: .\event\templates\event\participate.html:41
+#: .\event\templates\event\participate.html:60
 msgid "E-Mail"
 msgstr ""
 
-#: .\event\templates\event\participate.html:42
+#: .\event\templates\event\participate.html:61
 msgid "Telefon/Handy"
 msgstr ""
 
-#: .\event\templates\event\participate.html:45
+#: .\event\templates\event\participate.html:64
 msgid "Gast hinzufügen"
+msgstr ""
+
+#: .\event\templates\event\participate.html:73
+msgid "Beiträge"
 msgstr ""
 
 #: .\frontend\authviews.py:32
 msgid "Ein User mit dieser Email Adresse existiert bereits."
 msgstr ""
 
-#: .\frontend\templates\frontend\base-skeleton.html:84
+#: .\frontend\templates\frontend\base-skeleton.html:82
 msgid "Datenschutz+Impressum"
 msgstr ""
 
-#: .\frontend\templates\frontend\menu.html:25
+#: .\frontend\templates\frontend\menu.html:22
 msgid "Mein Teilnahmecode"
 msgstr ""
 
-#: .\frontend\templates\frontend\menu.html:31
+#: .\frontend\templates\frontend\menu.html:28
 msgid "Seite verlassen"
 msgstr ""

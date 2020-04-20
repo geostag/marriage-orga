@@ -16,6 +16,7 @@ class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     autoreg = models.CharField(max_length=32,blank=True)
     password = models.CharField("Passwort",max_length=32,blank=True)
+    participatecss = models.TextField(max_length=600, blank=True)
     
     @classmethod
     def getfromsession(cls,request):
@@ -56,6 +57,7 @@ class Document(models.Model):
     name    = models.CharField(max_length=80)
     notes   = models.TextField(max_length=400, blank=True)
     event   = models.ForeignKey(Event, on_delete=models.CASCADE)
+    public  = models.BooleanField(default=True)
     
     def __str__(self):
         return str(self.name)

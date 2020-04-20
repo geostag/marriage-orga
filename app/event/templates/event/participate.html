@@ -1,4 +1,4 @@
-{% extends "frontend/base.html" %}{% load i18n %}
+{% extends "frontend/base.html" %}{% load i18n %}{% load static %}
 
 {% block headerstyle %}
 <style type="text/css">
@@ -7,6 +7,9 @@
         display: inline;
         width: inherit;
     }
+    {% autoescape off %}
+    {{ event.participatecss }}
+    {% endautoescape %}
 </style>
 {% endblock headerstyle %}
 
