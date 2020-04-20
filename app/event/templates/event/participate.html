@@ -28,10 +28,12 @@
           <div class="card-body">
             <ul class="list-group">
               {% for d in event.document_set.all %}
+              {% if d.public %}
               <li class="list-group-item">
               <a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a><br />
               {{d.notes}}
               </li>
+              {% endif %}
               {% endfor %}
             </ul>
           </div>
