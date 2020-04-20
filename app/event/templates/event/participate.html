@@ -49,7 +49,7 @@
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{% trans "Gäste" %}</a>
           </h5>
         </div>
-        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div id="collapseOne" class="show" role="tabpanel" aria-labelledby="headingOne">
           <div class="card-body guestlist">
             <ul class="list-group">
             {% for g in guests %}
@@ -105,8 +105,13 @@
             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseC{{col.id}}" aria-expanded="false" aria-controls="collapseC{{col.id}}">{{col.name}}</a>
           </h5>
         </div>
-        <div id="collapseC{{col.id}}" class="show" role="tabpanel" aria-labelledby="headingC{{col.id}}">
+        <div id="collapseC{{col.id}}" class="collapse" role="tabpanel" aria-labelledby="headingC{{col.id}}">
           <div class="card-body">
+            <div class="row">
+              <div class="col">
+                {{col.notes}}
+              </div>
+            </div>
             <div class="row">
             {% for c in col.coli_set.all %}
             <div class="col-lg-4 mb-4">
