@@ -78,6 +78,7 @@
           <div class="col">
             <a href="{% url 'frontend.render' template='frontend/datenschutz.html' %}">{% trans "Datenschutz+Impressum" %}</a><br />
             Copyright &copy; 2020 {{settings.APP_NAME}}
+            {% if user.is_superuser %}<br />{{ settings.RELEASE }}{% endif %}
           </div>
         </div>
       </div>
