@@ -24,18 +24,22 @@
             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false" aria-controls="collapse3">{% trans "Informationen" %}</a>
           </h5>
         </div>
-        <div id="collapse3" class="collapse" role="tabpanel" aria-labelledby="heading3">
+        <div id="collapse3" class="show" role="tabpanel" aria-labelledby="heading3">
           <div class="card-body">
-            <ul class="list-group">
-              {% for d in event.document_set.all %}
-              {% if d.public %}
-              <li class="list-group-item">
-              <a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a><br />
-              {{d.notes}}
-              </li>
-              {% endif %}
-              {% endfor %}
-            </ul>
+            <div class="row">
+            {% for d in event.document_set.all %}
+            {% if d.public %}
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <h3 class="card-header"><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a></h3>
+                  <div class="card-body">
+                    <div>{{d.notes}}</div>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            </div>
           </div>
         </div>
     </div>
@@ -78,7 +82,7 @@
             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">{% trans "Beiträge" %}</a>
           </h5>
         </div>
-        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div id="collapseTwo" class="show" role="tabpanel" aria-labelledby="headingTwo">
           <div class="card-body">
             <ul class="list-group">
             {% for ci in cis %}
