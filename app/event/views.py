@@ -61,7 +61,7 @@ def enter(request,shortcut=None):
 def participate(request):
     e = Event.getfromsession(request)
     if not e:
-        raise Http404
+        return HttpResponseRedirect( reverse("event.enter") )
     p = Participant.getfromsession(request)
     if not p:
         # autogenerate a participant
