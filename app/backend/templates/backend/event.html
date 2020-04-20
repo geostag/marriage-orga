@@ -131,13 +131,91 @@
           </div>
         </div>
     </div>
+    {% with cols=mevent.checkoutlist_set.all %}
+    {% for col in cols %}
+    <div class="card">
+        <div class="card-header" role="tab" id="headingC{{col.id}}">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseC{{col.id}}" aria-expanded="false" aria-controls="collapseC{{col.id}}">{{col.name}}</a>
+          </h5>
+        </div>
+        <div id="collapseC{{col.id}}" class="collapse" role="tabpanel" aria-labelledby="headingC{{col.id}}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                {{col.notes}}
+              </div>
+            </div>
+            <div class="row">
+            {% for c in col.coli_set.all %}
+              <div class="col-lg-4 mb-4">
+                  <div class="card h-100">
+                    <span class="font-weight-bold card-header">
+                        <a class="float-right" title="ändern" href="{% url 'backend.coli.edit' coli_id=c.id %}"><i class="fas fa-edit"></i></a>
+                        <a class="float-right mr-2 text-danger" title="löschen" data-action="asktwice" data-href="{% url 'backend.coli.delete' coli_id=c.id %}"><i class="far fa-trash-alt"></i></a>
+                        {{c.name}}
+                    </span>
+                    <div class="card-body" style="position: relative">
+                      {% if c.image %}<p><img style="max-width: 100%; max-height: 10em;" src="{{ MEDIA_URL }}{{ c.image }}"></p>{% endif %}
+                      {% if c.url %}<p><a target="_blank" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a></p>{% endif %}
+                      <div class="mb-5">{{c.notes}}</div>
+                      <div class="mb-1" style="position: absolute; bottom: 0px;">
+                      <div>
+                      {% if not c.subcode %}
+                          <button class="btn btn-success">noch zu haben</button>
+                      {% else %}
+                          <button class="btn btn-danger">vergeben</button>
+                      {% endif %}
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            {% endfor %}
+              <div class="col-lg-4 mb-4">
+                <a role="button" class="mb-1 btn btn-primary" href="{% url 'backend.coli.add' col_id=col.id %}">hinzufügen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endwith %}
 
 </div>
+
+<!-- modal ask twice -->
+<div class="modal fade" id="delete_modal" role="dialog">
+<div class="modal-dialog modal-dialog-centered">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-body text-center">
+      <p>Wirklich löschen?</p>
+      <p>
+          <button type="button" class="float-left btn btn-primary" data-dismiss="modal">Abbrechen</button>
+          <button type="button" class="float-right btn btn-primary" onClick="asktwice('go')">Löschen</button>
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+
 
 {% endblock content %}
 
 {% block bottom-scripts %}
 <script type="text/javascript">
+var asktwice_href = false
+function asktwice(mode){
+    var href = $(this).data("href")
+    if( mode == "go" ){
+        window.location.href = asktwice_href
+    }else{
+        asktwice_href = href
+        $("#delete_modal").modal('show')
+    }
+}
 $(document).ready(function() { 
     $("[data-action=change]").focus( function(){
         $(this).css("background-color","#fff7e0")
@@ -162,6 +240,9 @@ $(document).ready(function() {
             }
         });
     })
+    
+    $(document).on("click","[data-action=asktwice]",asktwice)
+        
 })
 </script>
 {% endblock %}

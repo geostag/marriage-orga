@@ -1,0 +1,21 @@
+{% extends "frontend/base-boxed.html" %}
+
+
+{% block content %}
+<!-- backend/coli_edit.html -->
+<form id="coli_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
+{% csrf_token %}
+{% if form.non_field_errors %}
+    <label for="{{form.auto_id}}" class="col control-label"> </label>
+    <div style="color: #ee6924;">{{form.non_field_errors}}</div>
+{% endif %}
+{% include 'frontend/form-field-snippet.html' with f=form.name %}
+{% include 'frontend/form-field-snippet.html' with f=form.image additional_class='bs-django-clearablefileupload' %}
+{% include 'frontend/form-field-snippet.html' with f=form.url %}
+{% include 'frontend/form-field-snippet.html' with f=form.notes %}
+{% include 'frontend/form-field-snippet.html' with f=form.checkoutlist %}
+<button type="submit" class="btn btn-block btn-primary">Speichern</button>
+</form>
+
+{% endblock content %}
+

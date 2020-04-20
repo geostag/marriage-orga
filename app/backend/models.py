@@ -56,7 +56,7 @@ class Event(models.Model):
         super(Event, self).save(*args, **kwargs)
 
 class Document(models.Model):
-    file    = models.FileField('Dokument',upload_to=get_upload_filename_document)
+    file    = models.FileField('Dokument',upload_to=get_upload_filename_document,null=True,blank=True)
     name    = models.CharField(max_length=80)
     notes   = models.TextField(max_length=400, blank=True)
     event   = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -123,11 +123,8 @@ class Ci(models.Model):
         return "%s: %s" % (self.contribution.name,self.guestname)
         
     def save(self, *args, **kwargs):
-        print("A")
         p = Participant.objects.filter(subcode = self.subcode)[0]
         self.guestname = p.name
-        print(p.name)
-        print(self.guestname)
         super(Ci, self).save(*args, **kwargs)
 
 # this is: "Geschenkeliste"
@@ -146,9 +143,16 @@ class Coli(models.Model):
     image = models.FileField('Bild',upload_to=get_upload_filename_image, blank=True, null=True)
     notes = models.TextField(max_length=400, blank=True)
     checkoutlist = models.ForeignKey(Checkoutlist, on_delete=models.CASCADE)
-    subcode = models.CharField("Anmeldecode",max_length=16,blank=True)
+    subcode = models.CharField("Anmeldecode",max_length=16,blank=True, null=True)
     guestname = models.CharField("Gastname",max_length=100, default="-", blank=True, null=True)
     
     def __str__(self):
         return "%s: %s" % (self.checkoutlist.name,self.name)
 
+    def save(self, *args, **kwargs):
+        if self.subcode:
+            p = Participant.objects.filter(subcode = self.subcode)[0]
+            self.guestname = p.name
+        else:
+            self.guestname = ""
+        super(Coli, self).save(*args, **kwargs)

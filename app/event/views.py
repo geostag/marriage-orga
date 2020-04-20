@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http import Http404,HttpResponse,HttpResponseBadRequest,HttpResponseNotFound,HttpResponseForbidden, HttpResponseRedirect
 from event.forms import EnterForm, EnterWithCodeForm
-from backend.models import Event, Participant, Contribution, Ci
+from backend.models import Event, Participant, Contribution, Ci, Checkoutlist, Coli
 
 # Create your views here.
 
@@ -135,3 +135,22 @@ def ci_set(request):
     ci.name = request.POST.get("value")
     ci.save()
     return HttpResponse("saved")
+
+def coli_set(request):
+    e = Event.getfromsession(request)
+    p = Participant.getfromsession(request)
+    if not e or not p:
+        raise PermissionDenied("Event nicht gefunden")
+    c = Coli.objects.get(id = request.POST.get("id"))
+    mode = request.POST.get("mode")
+    if mode == "take" and not c.subcode:
+        c.subcode = p.subcode
+        c.save()
+    elif mode == "release" and c.subcode == p.subcode:
+        c.subcode = None
+        c.save()
+    else:
+        return HttpResponseForbidden("cannot change takeovermode")
+        
+    return HttpResponse("saved")
+    

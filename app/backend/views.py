@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import Http404,HttpResponse, HttpResponseRedirect
-from backend.models import Event, Participant
-from backend.forms import DocumentForm
+from backend.models import Event, Participant, Coli, Checkoutlist
+from backend.forms import DocumentForm, ColiForm
 
 # Create your views here.
 
@@ -36,7 +36,7 @@ def event(request,id):
             d = dform.save(commit=False)
             if not d.event == e:
                 raise Http404("Falsches Event angegeben")
-            dform.save()
+            d.save()
         else:
             dform.add_error(None,"Es ist ein Fehler aufgetreten.")
     else:
@@ -107,3 +107,60 @@ def participant_set(request):
         
     p.save()
     return HttpResponse("saved")
+
+@login_required
+def coli_add(request,col_id):
+    try:
+        col = Checkoutlist.objects.get(id = int(col_id))
+    except:
+        raise Http404("Checkoutlist nicht gefunden")
+        
+    e = col.event
+    if not e.can_edit(request):
+        raise PermissionDenied("Keine Event Berechtigung")
+    c = Coli(checkoutlist = col)
+    c.save()
+    return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
+
+@login_required
+def coli_edit(request,coli_id):
+    try:
+        c = Coli.objects.get(id = int(coli_id))
+    except:
+        raise Http404("Item nicht gefunden")
+        
+    e = c.checkoutlist.event
+    if not e.can_edit(request):
+        raise PermissionDenied("Keine Event Berechtigung")
+        
+    if request.POST:
+        coliform = ColiForm(request.POST,request.FILES,instance=c)
+        if coliform.is_valid():
+            c = coliform.save(commit=False)
+            if not c.checkoutlist.event == e:
+                raise Http404("Falsches Event angegeben")
+            c.save()
+            print(c)
+            return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
+        else:
+            coliform.add_error(None,"Es ist ein Fehler aufgetreten.")
+    else:
+        coliform = ColiForm(instance = c)
+        
+    c = { "form": coliform }
+        
+    return render(request,"backend/coli_edit.html",c)
+
+@login_required
+def coli_delete(request,coli_id):
+    try:
+        c = Coli.objects.get(id = int(coli_id))
+    except:
+        raise Http404("Item nicht gefunden")
+        
+    e = c.checkoutlist.event
+    if not e.can_edit(request):
+        raise PermissionDenied("Keine Event Berechtigung")
+
+    c.delete()
+    return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )

@@ -116,11 +116,24 @@
             {% for c in col.coli_set.all %}
             <div class="col-lg-4 mb-4">
                 <div class="card h-100">
-                  <span class="font-weight-bold card-header"><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{c.name}}</a></span>
-                  <div class="card-body">
-                    {% if c.image %}<img style="max-width: 100%; max-height: 10em;" src="{{ MEDIA_URL }}{{ c.image }}"><br />{% endif %}
-                    {% if c.url %}<a target="_blank" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a>{% endif %}
-                    <div>{{c.notes}}</div>
+                  <span class="font-weight-bold card-header">{{c.name}}</span>
+                  <div class="card-body" style="position: relative">
+                    {% if c.image %}<p><img style="max-width: 100%; max-height: 10em;" src="{{ MEDIA_URL }}{{ c.image }}"></p>{% endif %}
+                    {% if c.url %}<p><a target="_blank" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a></p>{% endif %}
+                    <div class="mb-5" {% if c.subcode and c.subcode != participant.subcode %}style="color: #b39d9d"{% endif %}>{{c.notes}}</div>
+                    <div class="mb-1" style="position: absolute; bottom: 0px;">
+                    <div>
+                    {% if not c.subcode %}
+                        <button class="btn btn-primary" data-action="coli-set" data-mode="take" data-id="{{c.id}}">reservieren</button>
+                    {% else %}
+                        {% if c.subcode == participant.subcode %} 
+                            <button class="btn btn-success" data-action="coli-set" data-mode="release" data-id="{{c.id}}">Reservierung aufheben</button>
+                        {% else %}
+                            <button class="btn btn-secondary">bereits vergeben</button>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -176,6 +189,21 @@ $(document).ready(function() {
             url: "{% url 'event.ci.set' %}",
             success: function(r){
                 e.css("background-color","#ffffff")
+            },
+            error: function(r){
+                console.log(r);
+            }
+        });
+    })
+    $(document).on("click","[data-action=coli-set]", function(){
+        var id  = $(this).attr("data-id")
+        var mode = $(this).attr("data-mode")
+        $.ajax({
+            method: "POST",
+            data: { "id": id, "mode": mode, "csrfmiddlewaretoken": "{{ csrf_token }}" },
+            url: "{% url 'event.coli.set' %}",
+            success: function(r){
+                window.location.reload(true)
             },
             error: function(r){
                 console.log(r);

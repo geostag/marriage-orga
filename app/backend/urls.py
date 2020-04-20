@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^participant/add/(?P<id>.+)/$',        backend.views.participant_add,name="backend.participant.add"),
     url(r'^participant/remove/(?P<id>.+)/$',     backend.views.participant_remove,name="backend.participant.remove"),
     url(r'^participant/set/$',                   backend.views.participant_set,name="backend.participant.set"),
+    url(r'^coli/add/(?P<col_id>.+)/$',           backend.views.coli_add,name="backend.coli.add"),
+    url(r'^coli/edit/(?P<coli_id>.+)/$',         backend.views.coli_edit,name="backend.coli.edit"),
+    url(r'^coli/delete/(?P<coli_id>.+)/$',       backend.views.coli_delete,name="backend.coli.delete"),
 ]
