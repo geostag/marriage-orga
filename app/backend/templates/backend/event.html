@@ -7,6 +7,24 @@
         display: inline;
         width: inherit;
     }
+    .reserved-tag {
+        position: absolute;
+        top: 31px;
+        right: -75px;
+        z-index: 10;
+        display: inline-block;
+        font-size: 12px;
+        width: 250px;
+        text-align: center;
+        padding: .25em 0;
+        color: white;
+        transform: rotate(45deg);
+        border: 5px solid #fff;
+        background: #7c97aa;
+    }
+    .edit-actions {
+        z-index: 20;
+    }
 </style>
 {% endblock headerstyle %}
 
@@ -54,20 +72,31 @@
           <div class="card-body">
           
             <div class="row">
-            {% for d in mevent.document_set.all %}
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
-                  <span class="card-header font-weight-bold" style="position: relative">
-                      {% if not d.public %}<span style="font-size: 70%; color: #d00000; position: absolute; right: 5px; top: 1px">offline</span>{% endif %}
-                      <a class="float-right" title="ändern" href="{% url 'backend.document.edit' document_id=d.id %}"><i class="fas fa-edit"></i></a>
-                      <a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a>
-                  </span>
-                  <div class="card-body">
-                    <div>{{d.notes}}</div>
-                  </div>
+                {% for d in mevent.document_set.all %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100">
+                      <span class="card-header font-weight-bold" style="position: relative">
+                          {% if not d.public %}<span style="font-size: 70%; color: #d00000; position: absolute; right: 5px; top: 1px">offline</span>{% endif %}
+                          <a class="float-right" title="ändern" href="{% url 'backend.document.edit' document_id=d.id %}"><i class="fas fa-edit"></i></a>
+                          {{d.name}}
+                      </span>
+                      <div class="card-body">
+                        <div>{{d.notes}}</div>
+                        {% if d.file %}
+                        <div><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen"><i class="fas fa-file-download"></i> Datei herunterladen</a></div>
+                        {% endif %}
+                      </div>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100">
+                      <span class="card-header font-weight-bold">&nbsp;</span>
+                      <div class="card-body text-center">
+                        <a style="font-size: 300%" title="ändern" href="{% url 'backend.document.add' event_id=mevent.id %}"><i class="far fa-plus-square"></i></a>
+                      </div>
+                    </div>
+                </div>
             </div>
             
           </div>
@@ -141,8 +170,12 @@
             <div class="row">
             {% for c in col.coli_set.all %}
               <div class="col-lg-4 mb-4">
-                  <div class="card h-100">
-                    <span class="font-weight-bold card-header">
+                  <div class="card h-100" style="position: relative; overflow: hidden">
+                    {% if c.subcode %}
+                      <span href="#" class="reserved-tag">reserviert</span>
+                    {% endif %}
+
+                    <span class="font-weight-bold card-header edit-actions">
                         <a class="float-right" title="ändern" href="{% url 'backend.coli.edit' coli_id=c.id %}"><i class="fas fa-edit"></i></a>
                         <a class="float-right mr-2 text-danger" title="löschen" data-action="asktwice" data-href="{% url 'backend.coli.delete' coli_id=c.id %}"><i class="far fa-trash-alt"></i></a>
                         {{c.name}}
@@ -150,22 +183,18 @@
                     <div class="card-body" style="position: relative">
                       {% if c.image %}<p><img style="max-width: 100%; max-height: 10em;" src="{{ MEDIA_URL }}{{ c.image }}"></p>{% endif %}
                       {% if c.url %}<p><a target="_blank" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a></p>{% endif %}
-                      <div class="mb-5">{{c.notes}}</div>
-                      <div class="mb-1" style="position: absolute; bottom: 0px;">
-                      <div>
-                      {% if not c.subcode %}
-                          <button class="btn btn-success">noch zu haben</button>
-                      {% else %}
-                          <button class="btn btn-danger">vergeben</button>
-                      {% endif %}
-                      </div>
-                      </div>
+                      <div>{{c.notes}}</div>
                     </div>
                   </div>
               </div>
             {% endfor %}
               <div class="col-lg-4 mb-4">
-                <a role="button" class="mb-1 btn btn-primary" href="{% url 'backend.coli.add' col_id=col.id %}">hinzufügen</a>
+                  <div class="card h-100">
+                    <span class="card-header font-weight-bold">&nbsp;</span>
+                    <div class="card-body text-center">
+                      <a style="font-size: 300%" title="ändern" href="{% url 'backend.coli.add' col_id=col.id %}"><i class="far fa-plus-square"></i></a>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>

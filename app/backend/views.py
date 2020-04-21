@@ -30,23 +30,9 @@ def event(request,id):
     if not e.can_edit(request):
         raise PermissionDenied("Event gesperrt")
         
-    if request.POST:
-        dform = DocumentForm(request.POST,request.FILES)
-        if dform.is_valid():
-            d = dform.save(commit=False)
-            if not d.event == e:
-                raise Http404("Falsches Event angegeben")
-            d.save()
-        else:
-            dform.add_error(None,"Es ist ein Fehler aufgetreten.")
-    else:
-        dform = DocumentForm(initial={'event': e})
-        
     c = { 
         "mevent": e, 
         "guests": Participant.objects.filter(event=e), 
-        "dform": dform,
-        "documentlist": e.document_set.all()
     }
     return render(request,"backend/event.html",c)
             
@@ -164,6 +150,21 @@ def coli_delete(request,coli_id):
     c.delete()
     return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
     
+@login_required
+def document_add(request,event_id):
+    try:
+        e = Event.objects.get(id = int(event_id))
+    except:
+        raise Http404("Event nicht gefunden")
+        
+    if not e.can_edit(request):
+        raise PermissionDenied("Keine Event Berechtigung")
+        
+    d = Document(event = e)
+    d.save()
+    
+    return HttpResponseRedirect( reverse("backend.document.edit", kwargs={"document_id": d.id }) )
+        
 @login_required
 def document_edit(request,document_id):
     try:

@@ -15,6 +15,9 @@ def leave(request):
     return HttpResponseRedirect(reverse("landingpage"))
 
 def enter(request,shortcut=None):
+    if Event.getfromsession(request):
+        return HttpResponseRedirect( reverse("event.participate") )
+    
     if shortcut:
         event = Event.objects.get(namecode=shortcut)
     else:
