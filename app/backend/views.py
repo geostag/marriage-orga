@@ -30,9 +30,14 @@ def event(request,id):
     if not e.can_edit(request):
         raise PermissionDenied("Event gesperrt")
         
+    g = Participant.objects.filter(event=e)
+        
     c = { 
         "mevent": e, 
-        "guests": Participant.objects.filter(event=e), 
+        "guests": g, 
+        "stats": { 
+            "guest": { "ja": g.filter(participation=1).count(), "nein": g.filter(participation=1).count(), "vlt": g.filter(participation=2).count(), "min": g.filter(participation=0).count() }
+        }
     }
     return render(request,"backend/event.html",c)
             
