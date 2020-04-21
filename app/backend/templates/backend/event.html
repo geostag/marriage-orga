@@ -47,37 +47,29 @@
     <div class="card">
         <div class="card-header" role="tab" id="headingTwo">
           <h5 class="mb-0">
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Dokumente</a>
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Informationen</a>
           </h5>
         </div>
         <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
           <div class="card-body">
-            <ul class="list-group">
-              {% for d in documentlist %}
-              <li class="list-group-item">
-              <a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a><br />
-              {{d.notes}}
-              </li>
-              {% endfor %}
-              <!-- existing doocs -->
-              <li class="list-group-item">
-                <a id="add_document_link" href="#" onclick="$('#add_document').removeClass('d-none');$('#add_document_link').addClass('d-none');" title="Dokument hinzufügen"><i class="fa fa-plus-square"></i> Dokument hinzufügen</a>
-                <div id="add_document" class="d-none">
-                  <form id="document_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
-                    {% csrf_token %}
-                    {% if dform.non_field_errors %}
-                      <label for="{{form.auto_id}}" class="col control-label"> </label>
-                      <div style="color: #ee6924;">{{dform.non_field_errors}}</div>
-                    {% endif %}
-                    {% include 'frontend/form-field-snippet.html' with f=dform.event %}
-                    {% include 'frontend/form-field-snippet.html' with f=dform.notes %}
-                    {% include 'frontend/form-field-snippet.html' with f=dform.file additional_class='bs-django-clearablefileupload' %}
-                    {% include 'frontend/form-field-snippet.html' with f=dform.public %}
-                    <button type="submit" class="btn btn-block btn-primary">Hochladen</button>
-                  </form>
+          
+            <div class="row">
+            {% for d in mevent.document_set.all %}
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                  <span class="card-header font-weight-bold" style="position: relative">
+                      {% if not d.public %}<span style="font-size: 70%; color: #d00000; position: absolute; right: 5px; top: 1px">offline</span>{% endif %}
+                      <a class="float-right" title="ändern" href="{% url 'backend.document.edit' document_id=d.id %}"><i class="fas fa-edit"></i></a>
+                      <a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a>
+                  </span>
+                  <div class="card-body">
+                    <div>{{d.notes}}</div>
+                  </div>
                 </div>
-              </li>
-            </ul>
+            </div>
+            {% endfor %}
+            </div>
+            
           </div>
         </div>
     </div>

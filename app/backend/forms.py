@@ -5,14 +5,16 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ('file',"notes","event","public")
+        fields = ('file',"name","notes","event","public")
         widgets = {
+            'name':   forms.TextInput(attrs={'class':'form-control'}),
             'notes':  forms.Textarea(attrs={'class':'form-control','rows':4}),
             'file':   forms.ClearableFileInput(attrs={'class':'NOTform-control'}),
             'event':  forms.HiddenInput(attrs={'class':'form-control'}),
             'public': forms.CheckboxInput(attrs={'class':'form-check-label'}),
         }
         labels = {
+            "name":      "Titel",
             "file":      "Dokument",
             "notes":     "Bemerkungen",
             "event":     "",

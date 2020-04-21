@@ -1,0 +1,23 @@
+{% extends "frontend/base-boxed.html" %}
+
+
+{% block content %}
+<!-- backend/document_edit.html -->
+<form id="document_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
+{% csrf_token %}
+{% if form.non_field_errors %}
+    <label for="{{form.auto_id}}" class="col control-label"> </label>
+    <div style="color: #ee6924;">{{form.non_field_errors}}</div>
+{% endif %}
+{% include 'frontend/form-field-snippet.html' with f=form.name %}
+{% include 'frontend/form-field-snippet.html' with f=form.notes %}
+{% include 'frontend/form-field-snippet.html' with f=form.file additional_class='bs-django-clearablefileupload' %}
+{% include 'frontend/form-field-snippet.html' with f=form.public %}
+{% include 'frontend/form-field-snippet.html' with f=form.event %}
+
+<button type="submit" class="float-right btn btn-primary">Speichern</button>
+<button type="button" onClick="window.location.href='{% url "backend.event" id=mevent.id %}'" class="btn btn-primary">Abbrechen</button>
+</form>
+
+{% endblock content %}
+

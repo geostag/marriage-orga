@@ -7,7 +7,7 @@ import random,string,pyqrcode,tempfile,os,re,time
 # Create your models here.
 
 def get_upload_filename_document(instance, filename):
-    instance.name = filename
+    #instance.name = filename
     return "backend/%d/%s-%s" % (instance.event.id,str(time.time()).replace('.','-'), re.sub("[^-0-9a-zA-Z_.]","",filename))
  
 def get_upload_filename_image(instance, filename):

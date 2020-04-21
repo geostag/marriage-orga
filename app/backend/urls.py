@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^coli/add/(?P<col_id>.+)/$',           backend.views.coli_add,name="backend.coli.add"),
     url(r'^coli/edit/(?P<coli_id>.+)/$',         backend.views.coli_edit,name="backend.coli.edit"),
     url(r'^coli/delete/(?P<coli_id>.+)/$',       backend.views.coli_delete,name="backend.coli.delete"),
+    url(r'^information/edit/(?P<document_id>.+)/$', backend.views.document_edit,name="backend.document.edit"),
 ]

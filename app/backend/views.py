@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import Http404,HttpResponse, HttpResponseRedirect
-from backend.models import Event, Participant, Coli, Checkoutlist
+from backend.models import Event, Participant, Coli, Checkoutlist, Document
 from backend.forms import DocumentForm, ColiForm
 
 # Create your views here.
@@ -140,7 +140,6 @@ def coli_edit(request,coli_id):
             if not c.checkoutlist.event == e:
                 raise Http404("Falsches Event angegeben")
             c.save()
-            print(c)
             return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
         else:
             coliform.add_error(None,"Es ist ein Fehler aufgetreten.")
@@ -164,3 +163,31 @@ def coli_delete(request,coli_id):
 
     c.delete()
     return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
+    
+@login_required
+def document_edit(request,document_id):
+    try:
+        d = Document.objects.get(id = int(document_id))
+    except:
+        raise Http404("Dokument nicht gefunden")
+        
+    e = d.event
+    if not e.can_edit(request):
+        raise PermissionDenied("Keine Event Berechtigung")
+        
+    if request.POST:
+        form = DocumentForm(request.POST,request.FILES,instance=d)
+        if form.is_valid():
+            d = form.save(commit=False)
+            if not d.event == e:
+                raise Http404("Falsches Event angegeben")
+            d.save()
+            return HttpResponseRedirect( reverse( "backend.event", kwargs={"id": e.id } ) )
+        else:
+            form.add_error(None,"Es ist ein Fehler aufgetreten.")
+    else:
+        form = DocumentForm(instance = d)
+        
+    c = { "form": form, "mevent": e }
+    return render(request,"backend/document_edit.html",c)
+
