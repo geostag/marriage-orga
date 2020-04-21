@@ -7,6 +7,33 @@
         display: inline;
         width: inherit;
     }
+    .reserved img {
+        opacity: 0.5;
+    }
+    .reserved {
+        color: #b39d9d;
+    }
+    .reserved .coli-url {
+        display: none;
+    }
+    .reserved-tag {
+        position: absolute;
+        top: 31px;
+        right: -75px;
+        z-index: 10;
+        display: inline-block;
+        font-size: 12px;
+        width: 250px;
+        text-align: center;
+        padding: .25em 0;
+        color: white;
+        transform: rotate(45deg);
+        border: 5px solid #fff;
+        background: #7c97aa;
+    }
+    .reserved-self .reserved-tag{
+        background: #55aa59;
+    }
     {% autoescape off %}
     {{ event.participatecss }}
     {% endautoescape %}
@@ -115,12 +142,23 @@
             <div class="row">
             {% for c in col.coli_set.all %}
             <div class="col-lg-4 mb-4">
-                <div class="card h-100">
+            
+                <div class="card h-100{% if c.subcode %} {% if c.subcode == participant.subcode %}reserved-self{% else %}reserved{% endif %}{% endif %}" style="position: relative; overflow: hidden">
+                
+                  {% if c.subcode %}
+                    {% if c.subcode == participant.subcode %}
+                    <span href="#" class="reserved-tag">von mir reserviert</span>
+                    {% else %}
+                    <span href="#" class="reserved-tag">reserviert</span>
+                    {% endif %}
+                  {% endif %}
+                    
                   <span class="font-weight-bold card-header">{{c.name}}</span>
                   <div class="card-body" style="position: relative">
                     {% if c.image %}<p><img style="max-width: 100%; max-height: 10em;" src="{{ MEDIA_URL }}{{ c.image }}"></p>{% endif %}
-                    {% if c.url %}<p><a target="_blank" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a></p>{% endif %}
-                    <div class="mb-5" {% if c.subcode and c.subcode != participant.subcode %}style="color: #b39d9d"{% endif %}>{{c.notes}}</div>
+                    {% if c.url %}<p><a target="_blank" class="coli-url" href="{{c.url}}"><i class="far fa-hand-point-right"></i> Link</a></p>{% endif %}
+                    <div class="mb-5">{{c.notes}}</div>
+                    
                     <div class="mb-1" style="position: absolute; bottom: 0px;">
                     <div>
                     {% if not c.subcode %}
@@ -128,14 +166,14 @@
                     {% else %}
                         {% if c.subcode == participant.subcode %} 
                             <button class="btn btn-success" data-action="coli-set" data-mode="release" data-id="{{c.id}}">Reservierung aufheben</button>
-                        {% else %}
-                            <button class="btn btn-secondary">bereits vergeben</button>
                         {% endif %}
                     {% endif %}
                     </div>
                     </div>
                   </div>
+                  
                 </div>
+                
             </div>
             {% endfor %}
             </div>
