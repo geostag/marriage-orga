@@ -58,9 +58,12 @@
             {% if d.public %}
             <div class="col-lg-4 mb-4">
                 <div class="card h-100">
-                  <h3 class="card-header"><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen">{{d.name}}</a></h3>
+                  <span class="card-header font-weight-bold" style="position: relative"> {{d.name}} </span>
                   <div class="card-body">
                     <div>{{d.notes}}</div>
+                    {% if d.file %}
+                    <div class="mt-4"><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen"><i class="fas fa-file-download"></i> Datei herunterladen</a></div>
+                    {% endif %}
                   </div>
                 </div>
             </div>
