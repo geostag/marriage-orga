@@ -13,8 +13,14 @@ from backend.models import Event, Participant, Contribution, Ci, Checkoutlist, C
 # Create your views here.
 
 def leave(request):
-    request.session.pop("eid")
-    request.session.pop("pid")
+    try:
+        request.session.pop("eid")
+    except:
+        pass
+    try:
+        request.session.pop("pid")
+    except:
+        pass
     return HttpResponseRedirect(reverse("landingpage"))
 
 def enter(request,shortcut=None):
@@ -48,27 +54,24 @@ def enter(request,shortcut=None):
             formF = CodeForgottenForm(request.POST)
             if formF.is_valid():
                 email = formF.cleaned_data['email']
-                print("CCC: %s" % email)
-                #try: 
-                p = Participant.objects.filter(email = email).order_by("id")[0]
-                print(p)
-                print(p.email)
-                if p.email:
-                    url = "%s%s" % (settings.BASE_ADDRESS,reverse("event.enter",kwargs={"shortcut":p.event.namecode}))
-                    mailbody = render_to_string("frontend/code-forgotten-email.html",{"p":p,"url":url}, request=request)
-                    if settings.EMAIL_HOST:
-                        send_mail("%s" % p.event.name,
-                            "Dein Teilnahmecode: %s" % p.subcode,
-                            settings.OUR_EMAIL, 
-                            [email,p.event.user.username],
-                            html_message = mailbody
-                        )
-                    else:
-                        print("No EMAIL_HOST configured. Would send out this email: " + mailbody)
-                        #return register_opt2(request,do.oikey)
+                try: 
+                    p = Participant.objects.filter(email = email).order_by("id")[0]
+                    if p.email:
+                        url = "%s%s" % (settings.BASE_ADDRESS,reverse("event.enter",kwargs={"shortcut":p.event.namecode}))
+                        mailbody = render_to_string("frontend/code-forgotten-email.html",{"p":p,"url":url}, request=request)
+                        if settings.EMAIL_HOST:
+                            send_mail("%s" % p.event.name,
+                                "Dein Teilnahmecode: %s" % p.subcode,
+                                settings.OUR_EMAIL, 
+                                [email,p.event.user.username],
+                                html_message = mailbody
+                            )
+                        else:
+                            print("No EMAIL_HOST configured. Would send out this email: " + mailbody)
+                            #return register_opt2(request,do.oikey)
                 
-                #except:
-                #    pass
+                except:
+                    pass
                 formF.add_error(None,_("E-Mail Adresse nicht gefunden"))
             open = 3
         else:
