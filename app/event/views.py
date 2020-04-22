@@ -66,9 +66,9 @@ def enter(request,shortcut=None):
                                 [email,p.event.user.username],
                                 html_message = mailbody
                             )
+                            return HttpResponseRedirect(reverse("event.enter"))
                         else:
                             print("No EMAIL_HOST configured. Would send out this email: " + mailbody)
-                            #return register_opt2(request,do.oikey)
                 
                 except:
                     pass
