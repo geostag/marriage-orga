@@ -36,7 +36,7 @@ def event(request,id):
         "mevent": e, 
         "guests": g, 
         "stats": { 
-            "guest": { "ja": g.filter(participation=1).count(), "nein": g.filter(participation=1).count(), "vlt": g.filter(participation=2).count(), "min": g.filter(participation=0).count() }
+            "guest": { "ja": g.filter(participation=1).count(), "nein": g.filter(participation=2).count(), "vlt": g.filter(participation=3).count(), "min": g.filter(participation=0).count() }
         }
     }
     return render(request,"backend/event.html",c)

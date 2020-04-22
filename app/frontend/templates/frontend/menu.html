@@ -22,17 +22,11 @@
             <a class="dropdown-item nav-link" href="{% url 'event.participate' %}" title="Teilnahme konfigurieren">{% trans "Mein Teilnahmecode" %}: <span class="text-success">{{participant.subcode}}</span></a>
         </li>
     {% endif %}
-    {% if event %}
-        <!-- event authenticated -->
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'event.leave' %}" title="Seite verlassen"><i class="fas fa-sign-out-alt"></i> {% trans "Seite verlassen" %}</a>
-        </li>
-    {% endif %}
-        <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='ro' %}?next={{ request.path | urlencode }}" title="Seite verlassen"><img width="24" src="{% static 'images/romania-30.png' %}"></a>
+            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='ro' %}?next={{ request.path | urlencode }}" title="{% trans 'Auf rumänisch umschalten' %}"><img width="24" src="{% static 'images/romania-30.png' %}"></a>
         </li>
         <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='de' %}?next={{ request.path | urlencode }}" title="Seite verlassen"><img width="24" src="{% static 'images/deutschland-30.png' %}"></a>
+            <a class="dropdown-item nav-link" href="{% url 'set_language' lang='de' %}?next={{ request.path | urlencode }}" title="{% trans 'Auf Deutsch umschalten' %}"><img width="24" src="{% static 'images/deutschland-30.png' %}"></a>
         </li>
     
     

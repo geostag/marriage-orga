@@ -52,14 +52,6 @@
                 <p>Gäste: {{stats.guest.ja}} zugesagt, {{stats.guest.nein}} abgesagt, {{stats.guest.vlt}} weiß noch nicht, {{stats.guest.min}} offen</p>
               </div>
             </div>
-            <ul class="list-group">
-            {% for c in mevent.contribution_set.all %}
-            <li class="list-group-item">
-            <span class="font-weight-bold">{{c.name}}</span><br />
-            {{c.notes}}
-            </li>
-            {% endfor %}
-            </ul>
           </div>
         </div>
     </div>
@@ -141,17 +133,24 @@
         <div id="collapse4" class="show" role="tabpanel" aria-labelledby="heading4">
           <div class="card-body guestlist">
            {% for c in mevent.contribution_set.all %}
-            <span class="font-weight-bold">{{c.name}}</span>
-            <ul class="list-group">
-             {% for ci in c.ci_set.all %}
-             <li class="list-group-item">
-             {{ci.name}} (<span class="text-muted">{{ci.guestname}}</span>)
-             </li>
-             {% endfor %}
-            </ul>
+               <div class="mb-2">
+                <p>
+                  <span class="font-weight-bold">{{c.name}}</span><br />
+                  <span class="text-muted">{{c.notes}}</span>
+                </p>
+                <ul class="list-group">
+                 {% for ci in c.ci_set.all %}
+                 <li class="list-group-item">
+                 {{ci.name}} (<span class="text-muted">{{ci.guestname}}</span>)
+                 </li>
+                 {% endfor %}
+                </ul>
+               </div>
            {% endfor %}
           </div>
         </div>
+        
+        
     </div>
     {% with cols=mevent.checkoutlist_set.all %}
     {% for col in cols %}

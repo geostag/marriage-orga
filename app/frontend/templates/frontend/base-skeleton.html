@@ -74,6 +74,13 @@
             <a title="Admin Login" href="{% url 'backend.base'%}"><i class="fas fa-cogs"></i> Admin</a>
             {% block footerlinks %}
             {% endblock footerlinks %}
+            {% if event %}
+            <!-- event authenticated -->
+            <li class="nav-item">
+                <a href="{% url 'event.leave' %}" title="Seite verlassen"><i class="fas fa-sign-out-alt"></i> {% trans "Seite verlassen" %}</a>
+            </li>
+            {% endif %}
+
           </div>
           <div class="col">
             <a href="{% url 'frontend.render' template='frontend/datenschutz.html' %}">{% trans "Datenschutz+Impressum" %}</a><br />

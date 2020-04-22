@@ -17,8 +17,8 @@
 <div id="signaccord">
 
   <div class="border-rounded">
-    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps2" aria-expanded="false">{% trans "Ich habe schon einen Teilnahmecode" %}:</a><br />
-    <div id="laps2" class="collapse" data-parent="#signaccord">
+    <a class="btn btn-outline-warning text-left button-switch" data-toggle="collapse" data-target="#laps2" aria-expanded="false">{% trans "Ich habe schon einen Teilnahmecode" %}:</a><br />
+    <div id="laps2" class="{% if open == 1 %}show{% else %}collapse{% endif %}" data-parent="#signaccord">
       <form id="enter_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
         {% csrf_token %}
     
@@ -35,7 +35,6 @@
     </div>
   </div>    
 
-
   <div class="row">
       <div class="col"><hr></div>
       <div class="col-auto">oder</div>
@@ -43,8 +42,8 @@
   </div>
 
   <div class="border-rounded">
-    <a class="btn btn-outline-primary text-left button-switch" data-toggle="collapse" data-target="#laps1" aria-expanded="false">{% trans "Ich bin zum ersten mal hier" %}:</a><br />
-    <div id="laps1" class="show" data-parent="#signaccord">
+    <a class="btn btn-outline-warning text-left button-switch" data-toggle="collapse" data-target="#laps1" aria-expanded="false">{% trans "Ich bin zum ersten mal hier" %}:</a><br />
+    <div id="laps1" class="{% if open == 2 %}show{% else %}collapse{% endif %}" data-parent="#signaccord">
       <form id="enter_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
         {% csrf_token %}
     
@@ -70,7 +69,31 @@
     </div>
   </div>    
 
+  <div class="row">
+      <div class="col"><hr></div>
+      <div class="col-auto">oder</div>
+      <div class="col"><hr></div>
+  </div>
+ 
+  <div class="border-rounded">
+    <a class="btn btn-outline-warning text-left button-switch" data-toggle="collapse" data-target="#laps3" aria-expanded="false">{% trans "Ich habe meinen Teilnahmecode vergessen" %}:</a><br />
+    <div id="laps3" class="{% if open == 3 %}show{% else %}collapse{% endif %}" data-parent="#signaccord">
+      <form id="forgotten_form" class="form-horizontal" action="" method="POST" enctype='multipart/form-data' accept-charset="UTF-8">
+        {% csrf_token %}
     
+        {% if formF.non_field_errors %}
+          <label for="{{formF.auto_id}}" class="col control-label"> </label>
+          <div style="color: #ee6924;">{{formF.non_field_errors}}</div>
+        {% endif %}
+
+        {% include 'frontend/form-field-snippet.html' with f=formF.email %}
+        <div class="clearfix m-2">
+        </div>
+        <button type="submit" class="btn btn-block btn-primary">{% trans "Teilnahmecode zusenden" %}</button>
+      </formF>
+    </div>
+  </div>    
+
 </div>
 
 

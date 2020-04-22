@@ -1,10 +1,13 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http import Http404,HttpResponse,HttpResponseBadRequest,HttpResponseNotFound,HttpResponseForbidden, HttpResponseRedirect
-from event.forms import EnterForm, EnterWithCodeForm
+from event.forms import EnterForm, EnterWithCodeForm, CodeForgottenForm
 from backend.models import Event, Participant, Contribution, Ci, Checkoutlist, Coli
 
 # Create your views here.
@@ -24,6 +27,8 @@ def enter(request,shortcut=None):
         event = None
     form = EnterForm()
     formC = EnterWithCodeForm()
+    formF = CodeForgottenForm()
+    open = 2
     if request.POST:
         if request.POST.get("partcode"):
             # enter with partcode
@@ -36,7 +41,36 @@ def enter(request,shortcut=None):
                     request.session["eid"] = e.id
                     return HttpResponseRedirect(reverse("event.participate"))
                 except:
-                    formC.add_error(None,"Anmeldung fehlgeschlagen")
+                    formC.add_error(None,_("Teilnahmecode nicht gefunden"))
+            open = 1
+        elif request.POST.get("email"):
+            # code forgotten, mail it
+            formF = CodeForgottenForm(request.POST)
+            if formF.is_valid():
+                email = formF.cleaned_data['email']
+                print("CCC: %s" % email)
+                #try: 
+                p = Participant.objects.filter(email = email).order_by("id")[0]
+                print(p)
+                print(p.email)
+                if p.email:
+                    url = "%s%s" % (settings.BASE_ADDRESS,reverse("event.enter",kwargs={"shortcut":p.event.namecode}))
+                    mailbody = render_to_string("frontend/code-forgotten-email.html",{"p":p,"url":url}, request=request)
+                    if settings.EMAIL_HOST:
+                        send_mail("%s" % p.event.name,
+                            "Dein Teilnahmecode: %s" % p.subcode,
+                            settings.OUR_EMAIL, 
+                            [email,p.event.user.username],
+                            html_message = mailbody
+                        )
+                    else:
+                        print("No EMAIL_HOST configured. Would send out this email: " + mailbody)
+                        #return register_opt2(request,do.oikey)
+                
+                #except:
+                #    pass
+                formF.add_error(None,_("E-Mail Adresse nicht gefunden"))
+            open = 3
         else:
             # enter with event + password
             form = EnterForm(request.POST)
@@ -56,11 +90,12 @@ def enter(request,shortcut=None):
                             return HttpResponseRedirect(reverse("event.participate"))
                     except:
                         pass
-                    form.add_error(None,"Anmeldung fehlgeschlagen")
+                    form.add_error(None,_("Anmeldung fehlgeschlagen"))
                     
-    c = {"formC": formC, "form": form, "event": event }
+    c = {"formC": formC, "form": form, "formF": formF, "event": event, "open": open }
     return render(request,"event/enter.html" ,c)
     
+
 def participate(request):
     e = Event.getfromsession(request)
     if not e:

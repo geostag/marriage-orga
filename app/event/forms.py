@@ -8,3 +8,6 @@ class EnterForm(forms.Form):
 
 class EnterWithCodeForm(forms.Form):
     partcode = forms.CharField(label='',required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_('Teilnahmecode')}))
+
+class CodeForgottenForm(forms.Form):
+    email = forms.CharField(label='',required=True,widget=forms.EmailInput(attrs={'class':'form-control','placeholder':_('E-Mail')}))

@@ -1,0 +1,10 @@
+{% extends "frontend/base-email.html" %}
+{% load static %}
+
+{% block content %}
+
+Dein Teilnahmecode für {{ p.event.name }} ist: {{p.subcode}}
+
+{{url}}
+
+{% endblock %}
