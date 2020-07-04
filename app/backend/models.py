@@ -63,6 +63,9 @@ class Document(models.Model):
     public  = models.BooleanField(default=True)
     order   = models.IntegerField('Reihenfolge',default=0)
     
+    class Meta:
+        ordering = ('order', )
+    
     def __str__(self):
         return str(self.name)
  
