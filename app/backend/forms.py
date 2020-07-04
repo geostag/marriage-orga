@@ -5,7 +5,7 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ('file',"name","notes","event","public")
+        fields = ('file',"name","notes","event","public","order")
         widgets = {
             'name':   forms.TextInput(attrs={'class':'form-control'}),
             'notes':  forms.Textarea(attrs={'class':'form-control','rows':4}),

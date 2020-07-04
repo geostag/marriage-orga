@@ -58,9 +58,10 @@ class Event(models.Model):
 class Document(models.Model):
     file    = models.FileField('Dokument',upload_to=get_upload_filename_document,null=True,blank=True)
     name    = models.CharField(max_length=80)
-    notes   = models.TextField(max_length=400, blank=True)
+    notes   = models.TextField(max_length=1000, blank=True)
     event   = models.ForeignKey(Event, on_delete=models.CASCADE)
     public  = models.BooleanField(default=True)
+    order   = models.IntegerField('Reihenfolge',default=0)
     
     def __str__(self):
         return str(self.name)
