@@ -60,7 +60,7 @@
                 <div class="card h-100 shadow">
                   <span class="card-header font-weight-bold" style="position: relative"> {{d.name}} </span>
                   <div class="card-body">
-                    <div>{{d.notes}}</div>
+                    <div>{{d.notes|linebreaks}}</div>
                     {% if d.file %}
                     <div class="mt-4"><a href="{{ MEDIA_URL }}{{ d.file }}" title="Dokument {{d.name}} herunterladen"><i class="fas fa-file-download"></i> {% trans "Datei herunterladen" %}</a></div>
                     {% endif %}
