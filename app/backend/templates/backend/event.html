@@ -140,9 +140,11 @@
                 </p>
                 <ul class="list-group">
                  {% for ci in c.ci_set.all %}
+                 {% if ci.name != "" %}
                  <li class="list-group-item">
                  {{ci.name}} (<span class="text-muted">{{ci.guestname}}</span>)
                  </li>
+                 {% endif %}
                  {% endfor %}
                 </ul>
                </div>
