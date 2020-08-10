@@ -30,7 +30,7 @@ def event(request,id):
     if not e.can_edit(request):
         raise PermissionDenied("Event gesperrt")
         
-    g = Participant.objects.filter(event=e)
+    g = Participant.objects.filter(event=e).order_by('subcode','id')
         
     c = { 
         "mevent": e, 
