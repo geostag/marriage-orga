@@ -87,7 +87,7 @@ class Participant(models.Model):
 
     def __str__(self):
         if self.event:
-            return "%s: %s" % (str(self.event),self.name)
+            return "%s: %s / %s" % (str(self.event),self.subcode,self.name)
         else:
             return "-: %s" % self.name
             
