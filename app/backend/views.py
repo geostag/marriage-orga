@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import Http404,HttpResponse, HttpResponseRedirect
-from backend.models import Event, Participant, Coli, Checkoutlist, Document
+from backend.models import Event, Participant, Coli, Checkoutlist, Document, Ci
 from backend.forms import DocumentForm, ColiForm
 
 # Create your views here.
@@ -197,3 +197,34 @@ def document_edit(request,document_id):
     c = { "form": form, "mevent": e }
     return render(request,"backend/document_edit.html",c)
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def participant_list(request,id):
+    try: 
+        e = Event.objects.get(id = int(id))
+    except ObjectDoesNotExist:
+        try:
+            e = Event.objects.get(namecode = id)
+        except ObjectDoesNotExist:
+            raise Http404("Event nicht gefunden")
+            
+    db = {}
+    for p in Participant.objects.filter(event=e).order_by('subcode','id'):
+        s = p.subcode
+        if not s in db:
+            db[s] = { "participants": [], "contributions": [], "colis": [] }
+        db[s]["participants"].append(p)
+        
+    for s in db.keys():
+        for c in Ci.objects.filter(subcode = s):
+            db[s]["contributions"].append( c )
+
+    for s in db.keys():
+        for c in Coli.objects.filter(subcode = s):
+            db[s]["colis"].append( c )
+            
+    db2 = []
+    for s in db:
+        db2.append( { "subcode": s, "participants": db[s]["participants"], "contributions": db[s]["contributions"], "colis": db[s]["colis"] } )
+            
+    return render(request,"backend/event_participantlist.html",{ "db": db2, "mevent": e } )

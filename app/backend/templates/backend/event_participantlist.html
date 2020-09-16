@@ -1,0 +1,64 @@
+{% extends "frontend/base.html" %}
+
+{% block headerstyle %}
+<style type="text/css">
+    .admin-tag {
+        position: absolute;
+        top: 31px;
+        left: -75px;
+        z-index: 10;
+        display: inline-block;
+        font-size: 12px;
+        width: 250px;
+        text-align: center;
+        padding: .25em 0;
+        color: white;
+        transform: rotate(-45deg);
+        border: 5px solid #fff;
+        background: #da6464;
+    }
+</style>
+{% endblock headerstyle %}
+
+{% block content %}
+<!-- backend/event.html -->
+
+
+<div>
+<span href="#" class="admin-tag">Admin-only</span>
+<h1>{{mevent.name}} Total Overview</h1>
+
+{% for s in db %}
+<div class="card">
+    <div class="card-header" role="tab" id="heading3">
+        {{s.subcode}}
+    </div>
+    <div class="card-body" role="tab" id="heading3">
+        <div class="mb-4">
+        <ul class="list-group">
+        {% for g in s.participants %}
+            <li class="list-group-item">{{g.name}}</li>
+        {% endfor %}
+        </ul>
+        </div>
+        <div class="mb-4">
+        <ul class="list-group">
+        {% for c in s.contributions %}
+            <li class="list-group-item">{{c.contribution.name}}: {{c.name}}</li>
+        {% endfor %}
+        </ul>
+        </div>
+        <div class="mb-4">
+        <ul class="list-group">
+        {% for c in s.colis %}
+            <li class="list-group-item">{{c.checkoutlist.name}}: {{c.name}}</li>
+        {% endfor %}
+        </ul>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}
