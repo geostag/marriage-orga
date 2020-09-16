@@ -217,11 +217,18 @@ def participant_list(request,id):
         
     for s in db.keys():
         for c in Ci.objects.filter(subcode = s):
-            db[s]["contributions"].append( c )
+            if c.name != "" and c.name != "-":
+                db[s]["contributions"].append( c )
 
     for s in db.keys():
         for c in Coli.objects.filter(subcode = s):
             db[s]["colis"].append( c )
+            
+    for d in e.checkoutlist_set.all():
+        for c in d.coli_set.all():
+            s = c.subcode
+            if not s in db:
+                db[s] = { "participants": [], "contributions": [], "colis": list( Coli.objects.filter(subcode = s) ) }
             
     db2 = []
     for s in db:
