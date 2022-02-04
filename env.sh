@@ -18,21 +18,13 @@ export HOSTNAME=`uname -n`
 # set up django specific env
 # override these in your private dj_-db-env.sh
 export DB_ENGINE=django.db.backends.postgresql
-export DB_NAME=stammbaum
-export DB_USER=stammbaum
-export DB_PASSWORD=stammbaump
+export DB_NAME=unknown
+export DB_USER=unknown
+export DB_PASSWORD=unknown
 export DB_HOST=localhost
 export DB_PORT=5432
 
-if [ `uname -n` = "snoopy" ]; then
-    INSTANCE="DEV"
-elif [ `uname -n` = "genf031" ]; then
-    INSTANCE=""
-else
-    INSTANCE="TEST"
-fi
-
-export INSTANCE
+export INSTANCE="TEST"
 
 if [ -r $dj_basedir/RELEASE ]; then
     export RELEASE=`cat $dj_basedir/RELEASE`
