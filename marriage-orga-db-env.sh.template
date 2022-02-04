@@ -13,6 +13,4 @@ export EMAIL_HOST_PASSWORD="secret"
 # print(get_random_secret_key())
 export SECRET_KEY='use a secret one'
 
-# intended for demo instance
-#export ALB_LOGOLINK="https://www.alberogen.de/"
-#export ALB_DISABLE_REGISTRATION="yes"
+
